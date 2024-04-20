@@ -59,3 +59,4 @@ bin/
 compile_commands.json
 .cmake/
 cmake_*
+micro-organism-monitor
