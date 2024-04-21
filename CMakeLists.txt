@@ -15,6 +15,7 @@ SET(SRC_LIST ${PROJECT_SOURCE_DIR}/src/main.c
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++0x")
 
 include_directories(${PROJECT_SOURCE_DIR}/src/include)
+link_directories(/usr/lib)
 
 message("PROJECT_NAME: ${PROJECT_NAME}")
 message("PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}/src")
@@ -24,4 +25,5 @@ message("PROJECT_BINARY_DIR: ${PROJECT_BINARY_DIR}")
 #################################
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
-target_link_libraries(wiringPi)
+target_link_libraries(${PROJECT_NAME}
+					wiringPi)
