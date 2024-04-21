@@ -13,6 +13,6 @@ typedef struct {
 } DHT11;
 
 int initialize(DHT11 *self, int pin);
-uint8 read(void);
+uint8 read(DHT11 *self);
 
 #endif // INCLUDE_DHTXX_H

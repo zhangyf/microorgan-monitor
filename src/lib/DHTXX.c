@@ -19,47 +19,47 @@ int initialize(DHT11 *self, int pin)
     return 0;
 }
 
-uint8 read(void)
+uint8 read(DHT11 *self)
 {
     uint8 crc; 
     uint8 i;
   
-    pinMode(pinNumber, OUTPUT); // set mode to output
-    digitalWrite(pinNumber, LOW); // output a low level 
+    pinMode(self->pinNum, OUTPUT); // set mode to output
+    digitalWrite(self->pinNum, LOW); // output a low level 
     delay(25);
-    digitalWrite(pinNumber, HIGH); // output a high level 
-    pinMode(pinNumber, INPUT); // set mode to input
-    pullUpDnControl(pinNumber, PUD_UP);
+    digitalWrite(self->pinNum, HIGH); // output a high level 
+    pinMode(self->pinNum, INPUT); // set mode to input
+    pullUpDnControl(self->pinNum, PUD_UP);
  
     delayMicroseconds(27);
-    if (digitalRead(pinNumber) == 0) //SENSOR ANS
+    if (digitalRead(self->pinNum) == 0) //SENSOR ANS
     {
-        while (!digitalRead(pinNumber))
+        while (!digitalRead(self->pinNum))
             ; //wait to high
  
         for (i = 0; i < 32; i++)
         {
-            while (digitalRead(pinNumber))
+            while (digitalRead(self->pinNum))
                 ; //data clock start
-            while (!digitalRead(pinNumber))
+            while (!digitalRead(self->pinNum))
                 ; //data start
             delayMicroseconds(HIGH_TIME);
-            databuf *= 2;
-            if (digitalRead(pinNumber) == 1) //1
+            self->databuf *= 2;
+            if (digitalRead(self->pinNum) == 1) //1
             {
-                databuf++;
+                self->databuf++;
             }
         }
  
         for (i = 0; i < 8; i++)
         {
-            while (digitalRead(pinNumber))
+            while (digitalRead(self->pinNum))
                 ; //data clock start
-            while (!digitalRead(pinNumber))
+            while (!digitalRead(self->pinNum))
                 ; //data start
             delayMicroseconds(HIGH_TIME);
             crc *= 2;  
-            if (digitalRead(pinNumber) == 1) //1
+            if (digitalRead(self->pinNum) == 1) //1
             {
                 crc++;
             }
