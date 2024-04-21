@@ -16,16 +16,20 @@ int main()
     digitalWrite(mDHT.pinNum, HIGH); // output a high level 
     printf("Starting to read....\n");
 
-    while(true)
+    while(1)
     {
         pinMode(mDHT.pinNum, OUTPUT); // set mode to output
         digitalWrite(mDHT.pinNum, HIGH); // output a high level 
         delay(3000);
         if (read(&mDHT))
         {
-            printf("Sensor data read ok!\n");
-            printf("RH:%d.%d\n", (mDHT.databuf >> 24) & 0xff, (mDHT.databuf >> 16) & 0xff); 
-            printf("TMP:%d.%d\n", (mDHT.databuf >> 8) & 0xff, mDHT.databuf & 0xff);
+            //float humidity = ((mDHT.databuf >> 24) & 0xff) + ((mDHT.databuf >> 16) & 0xff) / 1000.0;
+            //float temperature = ((mDHT.databuf >> 8) & 0x7f)  + (mDHT.databuf & 0xff) / 10.0;
+
+            printf("Sensor data read ok! humidity:\t%.1f%\ttemperature:\t%.1f C\n", getHumidity(&mDHT) , getTemperature(&mDHT));
+            
+            // printf("RH:%d.%d\n", (mDHT.databuf >> 24) & 0xff, (mDHT.databuf >> 16) & 0xff); 
+            // printf("TMP:%d.%d\n", (mDHT.databuf >> 8) & 0xff, mDHT.databuf & 0xff);
             mDHT.databuf = 0;
         }
         else

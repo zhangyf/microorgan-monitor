@@ -19,6 +19,23 @@ int initialize(DHT11 *self, int pin)
     return 0;
 }
 
+float getTemperature(DHT11 *self)
+{
+    return self->temperature;
+}
+
+float getHumidity(DHT11 *self)
+{
+    return self->humidity;
+}
+
+void reset(DHT11 *self)
+{
+    self->humidity = 0.0;
+    self->temperature = 0.0;
+    self->databuf = 0;
+}
+
 uint8 read(DHT11 *self)
 {
     uint8 crc; 
@@ -64,10 +81,15 @@ uint8 read(DHT11 *self)
                 crc++;
             }
         }
+
+        self->humidity = ((self->databuf >> 24) & 0xff) + ((self->databuf >> 16) & 0xff) / 1000.0;
+        self->temperature = ((self->databuf >> 8) & 0x7f)  + (self->databuf & 0xff) / 10.0;
         return 1;
     }
     else
     {
+        reset(self);
         return 0;
     }
 }
+

@@ -12,9 +12,14 @@ typedef unsigned long uint32;
 typedef struct {
     int pinNum;
     uint32 databuf;
+    float temperature;
+    float humidity;
 } DHT11;
 
 int initialize(DHT11 *self, int pin);
 uint8 read(DHT11 *self);
+float getTemperature(DHT11 *self);
+float getHumidity(DHT11 *self);
+void reset(DHT11 *self);
 
 #endif // INCLUDE_DHTXX_H
