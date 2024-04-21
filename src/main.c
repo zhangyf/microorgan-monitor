@@ -1,3 +1,4 @@
+#include "DHTXX.h"
 #include <stdio.h>
 
 int main()

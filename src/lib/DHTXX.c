@@ -1,25 +1,33 @@
-#include <wiringPi.h>
+#include "DHTXX.h"
 #include <stdio.h>
 #include <stdlib.h>
- 
-typedef unsigned char uint8;
-typedef unsigned int  uint16;
-typedef unsigned long uint32;
- 
-#define HIGH_TIME 32
- 
-int pinNumber = 25;
-uint32 databuf;
-  
-uint8 readSensorData(void)
+
+int initialize(DHT11 *self, int pin)
+{
+    self->pinNum = pin;
+    self->databuf = 0;
+
+    printf("PIN:\t%d\n", self->pinNum);
+    if (-1 == wiringPiSetup()) {
+        printf("Setup wiringPi failed!");
+        return 1;
+    }
+    else {
+        printf("Successfully setup wiringPi!\n");
+    }
+
+    return 0;
+}
+
+uint8 read(void)
 {
     uint8 crc; 
     uint8 i;
   
     pinMode(pinNumber, OUTPUT); // set mode to output
-    digitalWrite(pinNumber, 0); // output a high level 
+    digitalWrite(pinNumber, LOW); // output a low level 
     delay(25);
-    digitalWrite(pinNumber, 1); // output a low level 
+    digitalWrite(pinNumber, HIGH); // output a high level 
     pinMode(pinNumber, INPUT); // set mode to input
     pullUpDnControl(pinNumber, PUD_UP);
  
@@ -62,38 +70,4 @@ uint8 readSensorData(void)
     {
         return 0;
     }
-}
-  
-int main(void)
-{
-    printf("PIN:%d\n", pinNumber);
- 
-    if (-1 == wiringPiSetup()) {
-        printf("Setup wiringPi failed!");
-        return 1;
-    }
-  
-    pinMode(pinNumber, OUTPUT); // set mode to output
-    digitalWrite(pinNumber, 1); // output a high level 
- 
-    printf("Starting...\n");
-    while (1) 
-    {
-        pinMode(pinNumber, OUTPUT); // set mode to output
-        digitalWrite(pinNumber, 1); // output a high level 
-        delay(3000);
-        if (readSensorData())
-        {
-            printf("Sensor data read ok!\n");
-            printf("RH:%d.%d\n", (databuf >> 24) & 0xff, (databuf >> 16) & 0xff); 
-            printf("TMP:%d.%d\n", (databuf >> 8) & 0xff, databuf & 0xff);
-            databuf = 0;
-        }
-        else
-        {
-            printf("Sensor dosent ans!\n");
-            databuf = 0;
-        }
-    }
-    return 0;
 }
