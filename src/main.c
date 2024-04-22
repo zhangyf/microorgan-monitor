@@ -23,19 +23,17 @@ int main()
         delay(3000);
         if (read(&mDHT))
         {
-            //float humidity = ((mDHT.databuf >> 24) & 0xff) + ((mDHT.databuf >> 16) & 0xff) / 1000.0;
-            //float temperature = ((mDHT.databuf >> 8) & 0x7f)  + (mDHT.databuf & 0xff) / 10.0;
-
-            printf("DHT11 Sensor data read ok!\thumidity:\t%.1f%\ttemperature:\t%.1f C\n", getHumidity(&mDHT) , getTemperature(&mDHT));
+            printf("DHT11 Sensor data read ok!\t{ \"timestamp\":\t%ld\t\"humidity\":\t%.1f%\t\"temperature\":\t%.1f C }\n", 
+                        getTimestamp(&mDHT), getHumidity(&mDHT) , getTemperature(&mDHT));
             
             // printf("RH:%d.%d\n", (mDHT.databuf >> 24) & 0xff, (mDHT.databuf >> 16) & 0xff); 
             // printf("TMP:%d.%d\n", (mDHT.databuf >> 8) & 0xff, mDHT.databuf & 0xff);
-            mDHT.databuf = 0;
+            reset(&mDHT);
         }
         else
         {
             printf("Sensor dosen't ans!\n");
-            mDHT.databuf = 0;
+            reset(&mDHT);
         }
     }
     return 0;
