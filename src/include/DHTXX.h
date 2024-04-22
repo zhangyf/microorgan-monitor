@@ -2,6 +2,7 @@
 #define INCLUDE_DHTXX_H
 
 #include <wiringPi.h>
+#include <time.h>
 
 #define HIGH_TIME 32
 
@@ -14,12 +15,14 @@ typedef struct {
     uint32 databuf;
     float temperature;
     float humidity;
+    long timestamp;
 } DHT11;
 
 int initialize(DHT11 *self, int pin);
 uint8 read(DHT11 *self);
 float getTemperature(DHT11 *self);
 float getHumidity(DHT11 *self);
+long getTimestamp(DHT11 *self);
 void reset(DHT11 *self);
 
 #endif // INCLUDE_DHTXX_H
