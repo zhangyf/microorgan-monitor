@@ -18,8 +18,8 @@ int initialize(DHT11 *self, int pin)
         printf("Successfully setup wiringPi!\n");
     }
 
-    time_t currentTime;
-    if ((currentTime = time(NULL)) == -1)
+    time_t currentTime = time(NULL);
+    if (currentTime == -1)
     {
         self->timestamp = -1;
     }
@@ -51,7 +51,16 @@ void reset(DHT11 *self)
     self->humidity = 0.0;
     self->temperature = 0.0;
     self->databuf = 0;
-    self->timestamp = ((time_t currentTime = time(NULL)) == -1) ? -1 : currentTime;
+
+    time_t currentTime = time(NULL);
+    if (currentTime == -1)
+    {
+        self->timestamp = -1;
+    }
+    else
+    {
+        self->timestamp = (long)currentTime;
+    }
 }
 
 uint8 read(DHT11 *self)
@@ -102,7 +111,16 @@ uint8 read(DHT11 *self)
 
         self->humidity = ((self->databuf >> 24) & 0xff) + ((self->databuf >> 16) & 0xff) / 1000.0;
         self->temperature = ((self->databuf >> 8) & 0x7f) + (self->databuf & 0xff) / 10.0;
-        self->timestamp = ((time_t currentTime = time(NULL)) == -1) ? -1 : currentTime;
+
+        time_t currentTime = time(NULL);
+        if (currentTime == -1)
+        {
+            self->timestamp = -1;
+        }
+        else
+        {
+            self->timestamp = (long)currentTime;
+        }
         return 1;
     }
     else

@@ -2,6 +2,7 @@
 #define INCLUDE_COMMON_H_
 
 #include <wiringPi.h>
+#include <stdio.h>
 
 typedef unsigned char uint8;
 typedef unsigned int  uint16;
