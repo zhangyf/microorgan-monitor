@@ -125,7 +125,7 @@ uint8 dhtxxRead(DHT11 *self)
     }
     else
     {
-        reset(self);
+        dhtxxReset(self);
         return 0;
     }
 }
