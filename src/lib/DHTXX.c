@@ -8,15 +8,25 @@ int initialize(DHT11 *self, int pin)
     self->databuf = 0;
 
     printf("PIN:\t%d\n", self->pinNum);
-    if (-1 == wiringPiSetup()) {
+    if (-1 == wiringPiSetup())
+    {
         printf("Setup wiringPi failed!");
         return 1;
     }
-    else {
+    else
+    {
         printf("Successfully setup wiringPi!\n");
     }
 
-    self->timestamp = ((time_t currentTime = time(NULL)) == -1) ? -1 : currentTime;
+    time_t currentTime;
+    if ((currentTime = time(NULL)) == -1)
+    {
+        self->timestamp = -1;
+    }
+    else
+    {
+        self->timestamp = (long)currentTime;
+    }
 
     return 0;
 }
@@ -46,52 +56,52 @@ void reset(DHT11 *self)
 
 uint8 read(DHT11 *self)
 {
-    uint8 crc; 
+    uint8 crc;
     uint8 i;
-  
-    pinMode(self->pinNum, OUTPUT); // set mode to output
-    digitalWrite(self->pinNum, LOW); // output a low level 
+
+    pinMode(self->pinNum, OUTPUT);   // set mode to output
+    digitalWrite(self->pinNum, LOW); // output a low level
     delay(25);
-    digitalWrite(self->pinNum, HIGH); // output a high level 
-    pinMode(self->pinNum, INPUT); // set mode to input
+    digitalWrite(self->pinNum, HIGH); // output a high level
+    pinMode(self->pinNum, INPUT);     // set mode to input
     pullUpDnControl(self->pinNum, PUD_UP);
- 
+
     delayMicroseconds(27);
-    if (digitalRead(self->pinNum) == 0) //SENSOR ANS
+    if (digitalRead(self->pinNum) == 0) // SENSOR ANS
     {
         while (!digitalRead(self->pinNum))
-            ; //wait to high
- 
+            ; // wait to high
+
         for (i = 0; i < 32; i++)
         {
             while (digitalRead(self->pinNum))
-                ; //data clock start
+                ; // data clock start
             while (!digitalRead(self->pinNum))
-                ; //data start
+                ; // data start
             delayMicroseconds(HIGH_TIME);
             self->databuf *= 2;
-            if (digitalRead(self->pinNum) == 1) //1
+            if (digitalRead(self->pinNum) == 1) // 1
             {
                 self->databuf++;
             }
         }
- 
+
         for (i = 0; i < 8; i++)
         {
             while (digitalRead(self->pinNum))
-                ; //data clock start
+                ; // data clock start
             while (!digitalRead(self->pinNum))
-                ; //data start
+                ; // data start
             delayMicroseconds(HIGH_TIME);
-            crc *= 2;  
-            if (digitalRead(self->pinNum) == 1) //1
+            crc *= 2;
+            if (digitalRead(self->pinNum) == 1) // 1
             {
                 crc++;
             }
         }
 
         self->humidity = ((self->databuf >> 24) & 0xff) + ((self->databuf >> 16) & 0xff) / 1000.0;
-        self->temperature = ((self->databuf >> 8) & 0x7f)  + (self->databuf & 0xff) / 10.0;
+        self->temperature = ((self->databuf >> 8) & 0x7f) + (self->databuf & 0xff) / 10.0;
         self->timestamp = ((time_t currentTime = time(NULL)) == -1) ? -1 : currentTime;
         return 1;
     }
@@ -101,4 +111,3 @@ uint8 read(DHT11 *self)
         return 0;
     }
 }
-
