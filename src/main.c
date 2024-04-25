@@ -28,12 +28,12 @@ int main()
             
             // printf("RH:%d.%d\n", (mDHT.databuf >> 24) & 0xff, (mDHT.databuf >> 16) & 0xff); 
             // printf("TMP:%d.%d\n", (mDHT.databuf >> 8) & 0xff, mDHT.databuf & 0xff);
-            reset(&mDHT);
+            dhtxxReset(&mDHT);
         }
         else
         {
             printf("Sensor dosen't ans!\n");
-            reset(&mDHT);
+            dhtxxReset(&mDHT);
         }
     }
     return 0;
