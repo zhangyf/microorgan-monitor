@@ -13,7 +13,7 @@ typedef struct
     int speed;
 } StepMotor;
 
-int initialize(StepMotor *self, int pin1, int pin2, int pin3, int pin4);
-int rotate(StepMotor *self, float angle, int direction);
+int stepMotorInitialize(StepMotor *self, int pin1, int pin2, int pin3, int pin4);
+int stepMotorRotate(StepMotor *self, float angle, int direction);
 
 #endif // INCLUDE_STEP_MOTOR_H_

@@ -1,6 +1,6 @@
 #include "StepMotor.h"
 
-int initialize(StepMotor *self, int pin1, int pin2, int pin3, int pin4)
+int stepMotorInitialize(StepMotor *self, int pin1, int pin2, int pin3, int pin4)
 {
     self->pin[0] = pin1;
     self->pin[1] = pin2;
@@ -20,6 +20,11 @@ int initialize(StepMotor *self, int pin1, int pin2, int pin3, int pin4)
         pinMode(self->pin[i], OUTPUT);
     }
 
+    return 0;
+}
+
+int stepMotorRotate(StepMotor *self, float angle, int direction)
+{
     return 0;
 }
 

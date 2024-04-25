@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int initialize(DHT11 *self, int pin)
+int dhtxxInitialize(DHT11 *self, int pin)
 {
     self->pinNum = pin;
     self->databuf = 0;
@@ -31,22 +31,22 @@ int initialize(DHT11 *self, int pin)
     return 0;
 }
 
-float getTemperature(DHT11 *self)
+float dhtxxGetTemperature(DHT11 *self)
 {
     return self->temperature;
 }
 
-float getHumidity(DHT11 *self)
+float dhtxxGetHumidity(DHT11 *self)
 {
     return self->humidity;
 }
 
-long getTimestamp(DHT11 *self)
+long dhtxxGetTimestamp(DHT11 *self)
 {
     return self->timestamp;
 }
 
-void reset(DHT11 *self)
+void dhtxxReset(DHT11 *self)
 {
     self->humidity = 0.0;
     self->temperature = 0.0;
@@ -63,7 +63,7 @@ void reset(DHT11 *self)
     }
 }
 
-uint8 read(DHT11 *self)
+uint8 dhtxxRead(DHT11 *self)
 {
     uint8 crc;
     uint8 i;

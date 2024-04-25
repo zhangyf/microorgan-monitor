@@ -14,11 +14,11 @@ typedef struct {
     long timestamp;
 } DHT11;
 
-int initialize(DHT11 *self, int pin);
-uint8 read(DHT11 *self);
-float getTemperature(DHT11 *self);
-float getHumidity(DHT11 *self);
-long getTimestamp(DHT11 *self);
-void reset(DHT11 *self);
+int dhtxxInitialize(DHT11 *self, int pin);
+uint8 dhtxxRead(DHT11 *self);
+float dhtxxGetTemperature(DHT11 *self);
+float dhtxxGetHumidity(DHT11 *self);
+long dhtXXGetTimestamp(DHT11 *self);
+void dhtxxReset(DHT11 *self);
 
 #endif // INCLUDE_DHTXX_H_
