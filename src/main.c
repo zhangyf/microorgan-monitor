@@ -1,7 +1,12 @@
 #include "DHTXX.h"
-#include <stdio.h>
+#include "StepMotor.h"
 
 #define DHT11_PIN 25
+
+#define STEP_MOTOR_PIN_A 26
+#define STEP_MOTOR_PIN_B 27
+#define STEP_MOTOR_PIN_C 28
+#define STEP_MOTOR_PIN_D 29
 
 int main()
 {
@@ -12,6 +17,13 @@ int main()
     {
         return -1;
     }
+
+    StepMotor mStepMotor;
+    if (stepMotorInitialize(&mStepMotor, STEP_MOTOR_PIN_A, STEP_MOTOR_PIN_B, STEP_MOTOR_PIN_C, STEP_MOTOR_PIN_D) > 0)
+    {
+        return -1;
+    }
+
     pinMode(mDHT.pinNum, OUTPUT); // set mode to output
     digitalWrite(mDHT.pinNum, HIGH); // output a high level 
     printf("Starting to read....\n");

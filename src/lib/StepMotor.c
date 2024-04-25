@@ -8,11 +8,11 @@ int stepMotorInitialize(StepMotor *self, int pin1, int pin2, int pin3, int pin4)
     self->pin[3] = pin4;
 
     if (-1 == wiringPiSetup()) {
-        printf("Setup wiringPi failed!");
+        printf("StepMotor Setup wiringPi failed!");
         return 1;
     }
     else {
-        printf("Successfully setup wiringPi!\n");
+        printf("StepMotor Successfully setup wiringPi!\n");
     }
 
     for (int i=0; i<4; i++)
@@ -25,6 +25,7 @@ int stepMotorInitialize(StepMotor *self, int pin1, int pin2, int pin3, int pin4)
 
 int stepMotorRotate(StepMotor *self, float angle, int direction)
 {
+    printf("start to rotate\n");
     return 0;
 }
 

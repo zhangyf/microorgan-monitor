@@ -10,12 +10,12 @@ int dhtxxInitialize(DHT11 *self, int pin)
     printf("PIN:\t%d\n", self->pinNum);
     if (-1 == wiringPiSetup())
     {
-        printf("Setup wiringPi failed!");
+        printf("DHTXX Setup wiringPi failed!");
         return 1;
     }
     else
     {
-        printf("Successfully setup wiringPi!\n");
+        printf("DHTXX Successfully setup wiringPi!\n");
     }
 
     time_t currentTime = time(NULL);
