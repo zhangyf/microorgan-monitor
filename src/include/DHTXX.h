@@ -1,14 +1,10 @@
-#ifndef INCLUDE_DHTXX_H
-#define INCLUDE_DHTXX_H
+#ifndef INCLUDE_DHTXX_H_
+#define INCLUDE_DHTXX_H_
 
-#include <wiringPi.h>
 #include <time.h>
+#include "common.h"
 
 #define HIGH_TIME 32
-
-typedef unsigned char uint8;
-typedef unsigned int  uint16;
-typedef unsigned long uint32;
 
 typedef struct {
     int pinNum;
@@ -25,4 +21,4 @@ float getHumidity(DHT11 *self);
 long getTimestamp(DHT11 *self);
 void reset(DHT11 *self);
 
-#endif // INCLUDE_DHTXX_H
+#endif // INCLUDE_DHTXX_H_
