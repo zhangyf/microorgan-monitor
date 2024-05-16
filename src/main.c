@@ -1,5 +1,5 @@
 #include "DHTXX.h"
-#include "StepMotor.h"
+#include "TinyStepper.h"
 
 #define DHT11_PIN 25
 
@@ -18,8 +18,8 @@ int main()
         return -1;
     }
 
-    StepMotor mStepMotor;
-    if (stepMotorInitialize(&mStepMotor, STEP_MOTOR_PIN_A, STEP_MOTOR_PIN_B, STEP_MOTOR_PIN_C, STEP_MOTOR_PIN_D) > 0)
+    TinyStepper mTinyStepper;
+    if (tinyStepperInitialize(&mTinyStepper, STEP_MOTOR_PIN_A, STEP_MOTOR_PIN_B, STEP_MOTOR_PIN_C, STEP_MOTOR_PIN_D) > 0)
     {
         return -1;
     }

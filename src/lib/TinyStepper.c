@@ -1,6 +1,6 @@
-#include "StepMotor.h"
+#include "TinyStepper.h"
 
-int stepMotorInitialize(StepMotor *self, int pin1, int pin2, int pin3, int pin4)
+int tinyStepperInitialize(TinyStepper *self, int pin1, int pin2, int pin3, int pin4)
 {
     self->pin[0] = pin1;
     self->pin[1] = pin2;
@@ -23,7 +23,7 @@ int stepMotorInitialize(StepMotor *self, int pin1, int pin2, int pin3, int pin4)
     return 0;
 }
 
-int stepMotorRotate(StepMotor *self, float angle, int direction)
+int tinyStepperRotate(TinyStepper *self, float angle, int direction)
 {
     printf("start to rotate\n");
     return 0;
