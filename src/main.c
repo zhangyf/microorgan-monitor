@@ -1,14 +1,9 @@
 //#include "DHTXX.h"
 //#include "TinyStepper.h"
 
-#include <stdlib.h>
-#include <pthread.h>
+
 #include "thread_func1.h"
 #include "thread_func2.h"
-
-typedef unsigned char uint8;
-typedef unsigned int  uint16;
-typedef unsigned long uint32;
 
 #define DHT11_PIN 25
 
@@ -16,6 +11,14 @@ typedef unsigned long uint32;
 #define STEP_MOTOR_PIN_B 27
 #define STEP_MOTOR_PIN_C 28
 #define STEP_MOTOR_PIN_D 29
+
+uint8 exit_condition = 0;
+sem_t sem_on;
+
+void signal_handler(int signum) {
+    exit_condition = 1; // 设置退出条件，使线程退出循环
+    printf("接收到信号: %d\n", signum);
+}
 
 int main()
 {
@@ -62,6 +65,16 @@ int main()
     pthread_t thread1, thread2; // 创建两个线程ID
     int result1, result2;
 
+    // 初始化信号量
+    if (sem_init(&sem_on, 0, 1) != 0) {
+        perror("信号量sem_on初始化失败");
+        exit(1);
+    }
+
+    // 注册信号处理函数
+    signal(SIGINT, signal_handler); // 处理Ctrl+C信号
+    signal(SIGTERM, signal_handler); // 处理终止信号
+
     // 创建线程1，执行thread_func1函数
     result1 = pthread_create(&thread1, NULL, thread_func1, NULL);
     if (result1 != 0) {
@@ -79,6 +92,9 @@ int main()
     // 等待线程结束
     pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
+
+    // 销毁信号量
+    sem_destroy(&sem_on);
 
     printf("All threads finished.\n");
 

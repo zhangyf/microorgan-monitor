@@ -2,10 +2,13 @@
 #define INCLUDE_COMMON_H_
 
 //#include <wiringPi.h>
+#include <stddef.h> 
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <semaphore.h>
+#include <signal.h>
 
 typedef unsigned char uint8;
 typedef unsigned int  uint16;
@@ -19,5 +22,8 @@ typedef struct {
     int thread_id;
     int number;
 } ThreadData;
+
+extern uint8 exit_condition;
+extern sem_t sem_on;
 
 #endif // INCLUDE_COMMON_H_

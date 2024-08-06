@@ -1,8 +1,7 @@
 #ifndef THREAD_FUNC2_H
 #define THREAD_FUNC2_H
 
-#include <stddef.h> 
-#include <stdio.h>
+#include "common.h"
 
 void* thread_func2(void* arg);
 
