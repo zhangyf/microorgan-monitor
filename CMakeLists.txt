@@ -14,9 +14,9 @@ SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
 SET(SRC_LIST ${PROJECT_SOURCE_DIR}/src/main.c
-				${PROJECT_SOURCE_DIR}/src/lib/thread_func1.c
-				${PROJECT_SOURCE_DIR}/src/lib/thread_func2.c)
-#            ${PROJECT_SOURCE_DIR}/src/lib/DHTXX.c
+				${PROJECT_SOURCE_DIR}/src/lib/DHTXXWorkerThread.c
+				${PROJECT_SOURCE_DIR}/src/lib/thread_func2.c
+            	${PROJECT_SOURCE_DIR}/src/lib/DHTXX.c)
 #            ${PROJECT_SOURCE_DIR}/src/lib/TinyStepper.c)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++0x")

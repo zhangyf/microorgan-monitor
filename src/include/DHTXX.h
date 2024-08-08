@@ -1,12 +1,18 @@
 #ifndef INCLUDE_DHTXX_H_
 #define INCLUDE_DHTXX_H_
 
-#include <time.h>
 #include "common.h"
 
 #define HIGH_TIME 32
+#define DHT11_PIN 25
 
-typedef struct {
+#define STEP_MOTOR_PIN_A 26
+#define STEP_MOTOR_PIN_B 27
+#define STEP_MOTOR_PIN_C 28
+#define STEP_MOTOR_PIN_D 29
+
+typedef struct
+{
     int pinNum;
     uint32 databuf;
     float temperature;

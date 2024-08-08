@@ -1,6 +1,4 @@
 #include "DHTXX.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 int dhtxxInitialize(DHT11 *self, int pin)
 {
