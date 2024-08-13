@@ -2,6 +2,7 @@
 #define INCLUDE_DHTXX_WORKER_THREAD_H
 
 #include "DHTXX.h"
+#include "StepperMotor.h"
 
 void* start(void* arg);
 

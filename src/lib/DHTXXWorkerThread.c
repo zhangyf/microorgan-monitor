@@ -24,6 +24,14 @@ void *start(void *arg)
             printf("DHT11 Sensor data read ok!\t{ \"timestamp\":\t%ld\t\"humidity\":\t%.1f%\t\"temperature\":\t%.1f C }\n",
                    dhtxxGetTimestamp(&mDHT), dhtxxGetHumidity(&mDHT), dhtxxGetTemperature(&mDHT));
             dhtxxReset(&mDHT);
+
+            // TODO: 某些情况下需要启动电机
+
+            // start_motor();
+            
+            // 某些情况下需要停止电机
+
+            // stop_motor();
         }
         else
         {

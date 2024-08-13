@@ -15,7 +15,6 @@ SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
 SET(SRC_LIST ${PROJECT_SOURCE_DIR}/src/main.c
 				${PROJECT_SOURCE_DIR}/src/lib/DHTXXWorkerThread.c
-				${PROJECT_SOURCE_DIR}/src/lib/thread_func2.c
             	${PROJECT_SOURCE_DIR}/src/lib/DHTXX.c
             	${PROJECT_SOURCE_DIR}/src/lib/StepperMotor.c)
 
@@ -33,5 +32,5 @@ message("PROJECT_BINARY_DIR: ${PROJECT_BINARY_DIR}")
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
 target_link_libraries(${PROJECT_NAME} 
-					pthread)
-#					wiringPi)
+					pthread
+					wiringPi)

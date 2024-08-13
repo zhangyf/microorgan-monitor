@@ -8,14 +8,16 @@
 #define MOTOR_PIN_3 27
 #define MOTOR_PIN_4 22
 
-typedef struct
-{
-    int motorPinp[4];
-} StepperMotor;
+extern volatile int running;
+extern pthread_mutex_t mutex;
+extern pthread_cond_t cond_start;
+extern pthread_cond_t cond_stop;
 
-extern sem_t sem_motor_on;
-extern sem_t sem_motor_off;
-
-void setMotorPins(StepperMoter *self, int motorIdx, int value);
+void    setPin(int pin, int value);
+void    step(int steps, int delay);
+void*   motor_thread(void* arg);
+void    start_motor();
+void    stop_motor();
+int     stepper_motor_init();
 
 #endif // INCLUDE_STEPPER_MOTER_H_
