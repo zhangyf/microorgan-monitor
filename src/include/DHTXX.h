@@ -11,6 +11,8 @@
 #define STEP_MOTOR_PIN_C 28
 #define STEP_MOTOR_PIN_D 29
 
+uint8 exit_condition;
+
 typedef struct
 {
     int pinNum;
