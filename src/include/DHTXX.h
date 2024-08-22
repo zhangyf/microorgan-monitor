@@ -11,6 +11,11 @@
 #define STEP_MOTOR_PIN_C 28
 #define STEP_MOTOR_PIN_D 29
 
+#define HIGH_TEMPERATURE 50
+#define LOW_TEMPERATURE 30
+#define NORMAL_HUMIDITY   50
+#define LOW_HUMIDITY    30
+
 uint8 exit_condition;
 
 typedef struct
