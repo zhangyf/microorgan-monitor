@@ -10,8 +10,6 @@
 
 extern volatile int running;
 extern pthread_mutex_t mutex;
-extern pthread_cond_t cond_start;
-extern pthread_cond_t cond_stop;
 
 void    setPin(int pin, int value);
 void    step(int steps, int delay);

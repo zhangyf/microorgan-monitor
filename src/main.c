@@ -1,10 +1,6 @@
 #include "DHTXXWorkerThread.h"
 #include "StepperMotor.h"
 
-uint8 exit_condition = 0;
-sem_t sem_motor_on;
-sem_t sem_motor_off;
-
 void signal_handler(int signum) {
     exit_condition = 1; // 设置退出条件，使线程退出循环
     printf("接收到信号: %d\n", signum);
@@ -35,11 +31,6 @@ int main()
 
     // 等待线程结束
     pthread_join(dhtxx_thread, NULL);
-
-    // 销毁信号量
-    sem_destroy(&sem_motor_on);
-    sem_destroy(&sem_motor_off);
-
     printf("All threads finished.\n");
 
     return 0;
