@@ -7,15 +7,15 @@ void setPin(int pin, int value) {
     digitalWrite(pin, value);
 }
 
-void step(int steps, int delay) {
-    setPin(PIN_1, 1); setPin(PIN_2, 0); setPin(PIN_3, 0); setPin(PIN_4, 0); delay(1);
-    setPin(PIN_1, 0); setPin(PIN_2, 1); setPin(PIN_3, 0); setPin(PIN_4, 0); delay(1);
-    setPin(PIN_1, 0); setPin(PIN_2, 0); setPin(PIN_3, 1); setPin(PIN_4, 0); delay(1);
-    setPin(PIN_1, 0); setPin(PIN_2, 0); setPin(PIN_3, 0); setPin(PIN_4, 1); delay(1);
-    setPin(PIN_1, 1); setPin(PIN_2, 1); setPin(PIN_3, 0); setPin(PIN_4, 0); delay(1);
-    setPin(PIN_1, 0); setPin(PIN_2, 1); setPin(PIN_3, 1); setPin(PIN_4, 0); delay(1);
-    setPin(PIN_1, 0); setPin(PIN_2, 0); setPin(PIN_3, 1); setPin(PIN_4, 1); delay(1);
-    setPin(PIN_1, 1); setPin(PIN_2, 0); setPin(PIN_3, 0); setPin(PIN_4, 1); delay(1);
+void step() {
+    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); sleep(1);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); sleep(1);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 0); sleep(1);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 1); sleep(1);
+    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); sleep(1);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 0); sleep(1);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 1); sleep(1);
+    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 1); sleep(1);
 }
 
 void* motor_thread(void* arg) {
@@ -34,14 +34,12 @@ void start_motor() {
     pthread_mutex_lock(&mutex);
     running = 1;
     pthread_mutex_unlock(&mutex);
-    return 0;
 }
 
 void stop_motor() {
     pthread_mutex_lock(&mutex);
     running = 0;
     pthread_mutex_unlock(&mutex);
-    return 0;
 }
 
 int stepper_motor_init() {

@@ -12,7 +12,7 @@ extern volatile int running;
 extern pthread_mutex_t mutex;
 
 void    setPin(int pin, int value);
-void    step(int steps, int delay);
+void    step();
 void*   motor_thread(void* arg);
 void    start_motor();
 void    stop_motor();

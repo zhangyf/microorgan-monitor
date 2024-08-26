@@ -29,7 +29,7 @@ void *start(void *arg)
             // 高温（温度不低于50°）高湿（湿度不低于50%）环境，且距离上次翻堆超过3天，则需要翻堆
             if (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE 
                     && dhtxxGetHumidity(&mDHT) >= NORMAL_HUMIDITY
-                    && DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT)), last_fandui_time)
+                    && DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time))
                     {
                         // start_motor(); 翻堆
                         // fan_on 打开风扇
@@ -48,7 +48,7 @@ void *start(void *arg)
                 // water_on 加湿
                 // last_fandui_time = time(NULL);
             }
-            else if (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY)
+            else if (dhtxxGetHumidity(&mDHT) >= NORMAL_HUMIDITY)
             {
                 // stop_motor(); 停止翻堆
                 // water off 停止加湿
