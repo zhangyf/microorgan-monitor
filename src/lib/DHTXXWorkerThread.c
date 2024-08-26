@@ -22,8 +22,8 @@ void *start(void *arg)
         delay(3000);
         if (dhtxxRead(&mDHT))
         {
-            printf("DHT11 Sensor data read ok!\t{ \"timestamp\":\t%ld\t\"humidity\":\t%.1f%\t\"temperature\":\t%.1f C }\n",
-                   dhtxxGetTimestamp(&mDHT), dhtxxGetHumidity(&mDHT), dhtxxGetTemperature(&mDHT));
+            printf("DHT11 Sensor data read ok!\t{ \"timestamp\":\t%ld\t\"humidity\":\t%.1f%\t\"temperature\":\t%.1f C\t exist_condition: %d}\n",
+                   dhtxxGetTimestamp(&mDHT), dhtxxGetHumidity(&mDHT), dhtxxGetTemperature(&mDHT), exit_condition);
             dhtxxReset(&mDHT);
 
             // 高温（温度不低于50°）高湿（湿度不低于50%）环境，且距离上次翻堆超过3天，则需要翻堆
@@ -59,8 +59,8 @@ void *start(void *arg)
         else
         {
             printf("Sensor dosen't ans!\n");
-            dhtxxReset(&mDHT);
         }
+        dhtxxReset(&mDHT);
     }
     pthread_exit(NULL);
 }

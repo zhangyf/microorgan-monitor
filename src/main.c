@@ -1,20 +1,11 @@
 #include "DHTXXWorkerThread.h"
 #include "StepperMotor.h"
 
-void signal_handler(int signum) {
-    exit_condition = 1; // 设置退出条件，使线程退出循环
-    printf("接收到信号: %d\n", signum);
-}
-
 int main()
 {
 
     pthread_t dhtxx_thread, stepper_motor_thread;
     int dhtxx_result, stepper_motor_result;
-
-    // 注册信号处理函数
-    signal(SIGINT, signal_handler); // 处理Ctrl+C信号
-    signal(SIGTERM, signal_handler); // 处理终止信号
 
     // 创建DHTXX 工作线程，执行start函数
     dhtxx_result = pthread_create(&dhtxx_thread, NULL, start, NULL);

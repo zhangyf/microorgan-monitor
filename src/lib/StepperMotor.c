@@ -8,14 +8,14 @@ void setPin(int pin, int value) {
 }
 
 void step() {
-    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); sleep(1);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); sleep(1);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 0); sleep(1);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 1); sleep(1);
-    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); sleep(1);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 0); sleep(1);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 1); sleep(1);
-    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 1); sleep(1);
+    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); delay(1);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); delay(1);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 0); delay(1);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 1); delay(1);
+    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); delay(1);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 0); delay(1);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 1); delay(1);
+    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 1); delay(1);
 }
 
 void* motor_thread(void* arg) {

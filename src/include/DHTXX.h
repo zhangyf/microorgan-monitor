@@ -16,7 +16,7 @@
 #define NORMAL_HUMIDITY   50
 #define LOW_HUMIDITY    30
 
-uint8 exit_condition;
+uint8 exit_condition = 0;
 
 typedef struct
 {
