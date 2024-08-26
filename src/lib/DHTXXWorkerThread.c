@@ -22,7 +22,7 @@ void *start(void *arg)
         delay(3000);
         if (dhtxxRead(&mDHT))
         {
-            printf("DHT11 Sensor data read ok!\t{\"timestamp\":\t%ld\t\"humidity\":\t%.1f%(%d)\t\"temperature\":\t%.1f C(%d)\t exist_condition: %d}\n",
+            printf("DHT11 Sensor data read ok!\t{\"timestamp\":\t%ld\t\"humidity\":\t%.1f%(%d)\t\"temperature\":\t%.1f C(%d)\t exist_condition: %d} %d %d\n",
                    dhtxxGetTimestamp(&mDHT),
                    dhtxxGetHumidity(&mDHT), NORMAL_HUMIDITY,
                    dhtxxGetTemperature(&mDHT), HIGH_TEMPERATURE,
