@@ -19,6 +19,7 @@ void step() {
 }
 
 void* motor_thread(void* arg) {
+    printf("start motor thread %d\n", running);
     while (1) {
         pthread_mutex_lock(&mutex);
         if (running) {

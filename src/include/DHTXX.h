@@ -6,10 +6,10 @@
 #define HIGH_TIME 32
 #define DHT11_PIN 25
 
-#define HIGH_TEMPERATURE 35
-#define LOW_TEMPERATURE 25
-#define NORMAL_HUMIDITY   70
-#define LOW_HUMIDITY    30
+#define HIGH_TEMPERATURE    32
+#define LOW_TEMPERATURE     25
+#define NORMAL_HUMIDITY     70
+#define LOW_HUMIDITY        30
 
 uint8 exit_condition;
 
