@@ -38,7 +38,7 @@ void *start(void *arg)
                         start_motor(); // 翻堆
                         // fan_on 打开风扇
                         last_fandui_time = time(NULL);
-                        printf("start_motor and fan_on and %d\n", last_fandui_time)
+                        printf("start_motor and fan_on and %d\n", last_fandui_time);
                     }
             else if (dhtxxGetTemperature(&mDHT) <= LOW_TEMPERATURE)
             {
