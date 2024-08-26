@@ -31,13 +31,13 @@ void *start(void *arg)
                     && dhtxxGetHumidity(&mDHT) >= NORMAL_HUMIDITY
                     && DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time))
                     {
-                        // start_motor(); 翻堆
+                        start_motor(); // 翻堆
                         // fan_on 打开风扇
                         // last_fandui_time = time(NULL);
                     }
             else if (dhtxxGetTemperature(&mDHT) <= LOW_TEMPERATURE)
             {
-                // stop_motor(); 停止翻堆
+                 stop_motor(); // 停止翻堆
                 // fan_off 关闭风扇
             }
 
