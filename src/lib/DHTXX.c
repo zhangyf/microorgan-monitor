@@ -108,7 +108,7 @@ uint8 dhtxxRead(DHT11 *self)
         }
 
         self->humidity = ((self->databuf >> 24) & 0xff) + ((self->databuf >> 16) & 0xff) / 1000.0;
-        self->temperature = ((self->databuf >> 8) & 0x7f) + (self->databuf & 0xff) / 10.0;
+        self->temperature = ((self->databuf >> 8) & 0x7f) + (self->databuf & 0xff) / 10.0 - 7.0;
 
         time_t currentTime = time(NULL);
         if (currentTime == -1)
