@@ -22,9 +22,13 @@ void *start(void *arg)
         delay(3000);
         if (dhtxxRead(&mDHT))
         {
-            printf("DHT11 Sensor data read ok!\t{ \"timestamp\":\t%ld\t\"humidity\":\t%.1f%\t\"temperature\":\t%.1f C\t exist_condition: %d}\n",
-                   dhtxxGetTimestamp(&mDHT), dhtxxGetHumidity(&mDHT), dhtxxGetTemperature(&mDHT), exit_condition);
-            dhtxxReset(&mDHT);
+            printf("DHT11 Sensor data read ok!\t{\"timestamp\":\t%ld\t\"humidity\":\t%.1f%(%d)\t\"temperature\":\t%.1f C(%d)\t exist_condition: %d}\n",
+                   dhtxxGetTimestamp(&mDHT),
+                   dhtxxGetHumidity(&mDHT), NORMAL_HUMIDITY,
+                   dhtxxGetTemperature(&mDHT), HIGH_TEMPERATURE,
+                   exit_condition,
+
+                   DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time));
 
             // 高温（温度不低于50°）高湿（湿度不低于50%）环境，且距离上次翻堆超过3天，则需要翻堆
             if (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE 
@@ -33,7 +37,8 @@ void *start(void *arg)
                     {
                         start_motor(); // 翻堆
                         // fan_on 打开风扇
-                        // last_fandui_time = time(NULL);
+                        last_fandui_time = time(NULL);
+                        printf("start_motor and fan_on and %d\n", last_fandui_time)
                     }
             else if (dhtxxGetTemperature(&mDHT) <= LOW_TEMPERATURE)
             {
