@@ -22,12 +22,13 @@ void *start(void *arg)
         delay(3000);
         if (dhtxxRead(&mDHT))
         {
-            printf("DHT11 Sensor data read ok!\t{\"timestamp\":\t%ld\t\"humidity\":\t%.1f%(%d)\t\"temperature\":\t%.1f C(%d)\t exist_condition: %d} %d %d\n",
+            printf("DHT11 Sensor data read ok!\t{\"timestamp\":\t%ld\t\"humidity\":\t%.1f%(%d)\t\"temperature\":\t%.1f C(%d)\t exist_condition: %d} %d %d %d\n",
                    dhtxxGetTimestamp(&mDHT),
                    dhtxxGetHumidity(&mDHT), NORMAL_HUMIDITY,
                    dhtxxGetTemperature(&mDHT), HIGH_TEMPERATURE,
                    exit_condition,
-
+                   (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE),
+                   (dhtxxGetHumidity(&mDHT) >= NORMAL_HUMIDITY),
                    DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time));
 
             // 高温（温度不低于50°）高湿（湿度不低于50%）环境，且距离上次翻堆超过3天，则需要翻堆
