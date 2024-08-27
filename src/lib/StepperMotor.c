@@ -1,6 +1,6 @@
 #include "StepperMotor.h"
 
-volatile int running = 0;
+volatile int running = 1;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void setPin(int pin, int value) {
@@ -8,14 +8,14 @@ void setPin(int pin, int value) {
 }
 
 void step() {
-    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); delay(1);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); delay(1);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 0); delay(1);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 1); delay(1);
-    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); delay(1);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 0); delay(1);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 1); delay(1);
-    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 1); delay(1);
+    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); delay(2);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); delay(2);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 0); delay(2);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 1); delay(2);
+    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); delay(2);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 0); delay(2);
+    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 1); delay(2);
+    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 1); delay(2);
 }
 
 void* motor_thread(void* arg) {
@@ -57,5 +57,6 @@ int stepper_motor_init() {
         perror("Failed to create thread");
         return -1;
     }
+	printf("stepper_motor pid=%d\n", ret);
     return 0;
 }
