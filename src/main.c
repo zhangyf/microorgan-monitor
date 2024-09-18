@@ -3,9 +3,13 @@
 
 int main()
 {
+    pthread_t dhtxx_tid, motor_tid, relay_tid;
+    int dhtxx_result, motor_result, relay_result;
 
-    pthread_t dhtxx_tid, motor_tid;
-    int dhtxx_result, motor_result;
+    pthread_mutex_init(&mtx, NULL);
+    pthread_cond_init(&cv, NULL);
+    signalReceived = 0;
+    relayState = RELAY_STATE_OFF;
 
     if (wiringPiSetup() == -1) {
         fprintf(stderr, "WiringPi setup failed\n");
@@ -26,9 +30,16 @@ int main()
         return -1;
     }
 
+    relay_result = pthread_create(&relay_tid, NULL, relay_thread, NULL);
+    if (relay_result != 0) {
+        perror("Failed to create thread");
+        return -1;        
+    }
+
     // 等待线程结束
     pthread_join(dhtxx_tid, NULL);
     pthread_join(motor_tid, NULL);
+    pthread_join(relay_tid, NULL);
     printf("All threads finished.\n");
 
     return 0;
