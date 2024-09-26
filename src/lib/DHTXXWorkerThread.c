@@ -10,7 +10,7 @@ void *start(void *arg)
     time_t last_fandui_time = 0L;
 
     DHT11 mDHT;
-    if ((dhtxxInitialize(&mDHT, DHT11_PIN) > 0) || (fan_init(FAN_PIN) > 0))
+    if (dhtxxInitialize(&mDHT, DHT11_PIN) > 0)
     {
         pthread_exit(NULL);
     }
@@ -41,7 +41,7 @@ void *start(void *arg)
                 if (start_motor_cnt++ > START_MOTOR_THRESHOLD)
                 {
                     start_motor(); // 翻堆
-                    fan_on(); //打开风扇
+                    // fan_on(); //打开风扇
                     last_fandui_time = time(NULL);
                     printf("start_motor and fan_on and %d\n", last_fandui_time);
                     start_motor_cnt = 0;
@@ -52,7 +52,7 @@ void *start(void *arg)
                 if (stop_motor_cnt++ > STOP_MOTOR_THRESHOLD)
                 {
                     stop_motor(); // 停止翻堆
-                    fan_off(); // 关闭风扇
+                    // fan_off(); // 关闭风扇
                     stop_motor_cnt = 0;
                 }
             }

@@ -8,8 +8,8 @@ int main()
 
     pthread_mutex_init(&mtx, NULL);
     pthread_cond_init(&cv, NULL);
-    signalReceived = 0;
-    relayState = RELAY_STATE_OFF;
+    signal_received = 0;
+    relay_state = RELAY_STATE_OFF;
 
     if (wiringPiSetup() == -1) {
         fprintf(stderr, "WiringPi setup failed\n");

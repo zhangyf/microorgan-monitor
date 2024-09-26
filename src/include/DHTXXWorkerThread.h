@@ -3,7 +3,7 @@
 
 #include "DHTXX.h"
 #include "StepperMotor.h"
-#include "Fan.h"
+#include "Relay.h"
 
 void* start(void* arg);
 
