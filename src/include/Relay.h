@@ -20,5 +20,9 @@ int relay_state;
 #define WATER_PUMP_OFF  4 
 
 void* relay_thread(void* arg);
+void* fan_on();
+void* fan_off();
+void* water_pump_on();
+void* water_pump_off();
 
 #endif // INCLUDE_RELAY_H

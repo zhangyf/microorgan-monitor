@@ -41,7 +41,7 @@ void *start(void *arg)
                 if (start_motor_cnt++ > START_MOTOR_THRESHOLD)
                 {
                     start_motor(); // 翻堆
-                    // fan_on(); //打开风扇
+                    fan_on(); //打开风扇
                     last_fandui_time = time(NULL);
                     printf("start_motor and fan_on and %d\n", last_fandui_time);
                     start_motor_cnt = 0;
@@ -52,7 +52,7 @@ void *start(void *arg)
                 if (stop_motor_cnt++ > STOP_MOTOR_THRESHOLD)
                 {
                     stop_motor(); // 停止翻堆
-                    // fan_off(); // 关闭风扇
+                    fan_off(); // 关闭风扇
                     stop_motor_cnt = 0;
                 }
             }
@@ -68,7 +68,7 @@ void *start(void *arg)
                 if (start_watering_cnt++ > START_WATERING_THRESHOLD)
                 {
                     start_motor(); // 翻堆
-                    // water_on 加湿
+                    water_pump_on(); // 加湿
                     // last_fandui_time = time(NULL);
                     start_watering_cnt = 0;
                 }
@@ -78,7 +78,7 @@ void *start(void *arg)
                 if (stop_watering_cnt++ > STOP_WATERING_THRESHOLD)
                 {
                     stop_motor(); //停止翻堆
-                    // water off 停止加湿
+                    water_pump_off(); // 停止加湿
                     stop_watering_cnt = 0;
                 }
             }

@@ -36,6 +36,26 @@ int main()
         return -1;        
     }
 
+//	printf("delay 10s to wait .....\n");
+//	delay(10000);
+//
+//	pthread_mutex_lock(&mtx);
+//    signal_received = 1;
+//    relay_state = WATER_PUMP_ON;
+//	printf("send WATER_PUMP_ON signal\n");
+//	pthread_cond_signal(&cv);
+//	pthread_mutex_unlock(&mtx);
+//
+//	delay(10000);
+//
+//	pthread_mutex_lock(&mtx);
+//    signal_received = 1;
+//    relay_state = WATER_PUMP_OFF;
+//	printf("send WATER_PUMP_OFF signal\n");
+//	pthread_cond_signal(&cv);
+//	pthread_mutex_unlock(&mtx);
+
+
     // 等待线程结束
     pthread_join(dhtxx_tid, NULL);
     pthread_join(motor_tid, NULL);
