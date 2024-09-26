@@ -4,7 +4,7 @@
 #include "common.h"
 
 #define HIGH_TIME 32
-#define DHT11_PIN 25
+#define DHT11_PIN 27
 
 #define HIGH_TEMPERATURE    32
 #define LOW_TEMPERATURE     25
