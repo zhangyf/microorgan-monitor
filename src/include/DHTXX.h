@@ -3,13 +3,17 @@
 
 #include "common.h"
 
-#define HIGH_TIME 32
-#define DHT11_PIN 27
+#define HIGH_TIME                   32
+#define DHT11_PIN                   25
 
-#define HIGH_TEMPERATURE    32
-#define LOW_TEMPERATURE     25
-#define NORMAL_HUMIDITY     70
-#define LOW_HUMIDITY        30
+#define HIGH_TEMPERATURE            32
+#define LOW_TEMPERATURE             25
+#define HIGH_HUMIDITY               70
+#define LOW_HUMIDITY                30
+#define START_MOTOR_THRESHOLD       3
+#define STOP_MOTOR_THRESHOLD        3
+#define START_WATERING_THRESHOLD    3
+#define STOP_WATERING_THRESHOLD     3
 
 uint8 exit_condition;
 
