@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.16)
 
-PROJECT(micro-organism-monitor LANGUAGES C )
+PROJECT(micro-organism-monitor LANGUAGES CXX)
 
 IF (WIN32)
 	option(CMAKE_USE_WIN32_THREADS_INIT "using WIN32 threads" ON)
@@ -13,13 +13,16 @@ SET(CMAKE_BUILD_TYPE "Debug")
 SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
-SET(SRC_LIST ${PROJECT_SOURCE_DIR}/src/main.c
-				${PROJECT_SOURCE_DIR}/src/lib/DHTXXWorkerThread.c
-            	${PROJECT_SOURCE_DIR}/src/lib/DHTXX.c
-				${PROJECT_SOURCE_DIR}/src/lib/RelayThread.c
-            	${PROJECT_SOURCE_DIR}/src/lib/StepperMotor.c)
+SET(CMAKE_VERBOSE_MAKEFILE ON)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++0x")
+SET(SRC_LIST ${PROJECT_SOURCE_DIR}/src/main.cpp
+				${PROJECT_SOURCE_DIR}/src/lib/DHTXX.cpp)
+				# ${PROJECT_SOURCE_DIR}/src/lib/DHTXXWorkerThread.c
+            	# ${PROJECT_SOURCE_DIR}/src/lib/DHTXX.c
+				# ${PROJECT_SOURCE_DIR}/src/lib/RelayThread.c
+            	# ${PROJECT_SOURCE_DIR}/src/lib/StepperMotor.c)
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++11")
 
 include_directories(${PROJECT_SOURCE_DIR}/src/include)
 link_directories(/usr/lib)
@@ -32,6 +35,5 @@ message("PROJECT_BINARY_DIR: ${PROJECT_BINARY_DIR}")
 #################################
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
-target_link_libraries(${PROJECT_NAME} 
-					pthread
-					wiringPi)
+target_link_libraries(${PROJECT_NAME}
+						thread)
