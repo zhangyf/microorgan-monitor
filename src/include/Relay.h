@@ -24,5 +24,6 @@ void* fan_on();
 void* fan_off();
 void* water_pump_on();
 void* water_pump_off();
+int get_relay_state();
 
 #endif // INCLUDE_RELAY_H

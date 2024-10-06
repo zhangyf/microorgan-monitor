@@ -7,8 +7,6 @@ int main()
     pthread_t dhtxx_tid, motor_tid, relay_tid, marqueue_tid;
     int dhtxx_result, motor_result, relay_result, marqueue_result;
 
-    marqueue_init();
-
     pthread_mutex_init(&mtx, NULL);
     pthread_cond_init(&cv, NULL);
     signal_received = 0;
@@ -18,6 +16,8 @@ int main()
         fprintf(stderr, "WiringPi setup failed\n");
         return 1;
     }
+
+    marqueue_init();
 
     // 创建DHTXX 工作线程，执行start函数
     dhtxx_result = pthread_create(&dhtxx_tid, NULL, start, NULL);
@@ -39,13 +39,13 @@ int main()
         return -1;        
     }
 
-    marqueue_result = pthread_create(&marqueue_tid, NULL, marqueue_thread, NULL);
-    if (marqueue_result != 0) {
-        perror("Failed to create thread");
-        return -1;        
-    }
-
-    update_message("Hello LCD!");
+//    marqueue_result = pthread_create(&marqueue_tid, NULL, marqueue_thread, NULL);
+//    if (marqueue_result != 0) {
+//        perror("Failed to create thread");
+//        return -1;        
+//    }
+//
+//    update_message("Hello LCD!");
 
 //	printf("delay 10s to wait .....\n");
 //	delay(10000);

@@ -3,6 +3,10 @@
 int fan_pin = 28;
 int water_pump_pin = 29;
 
+int get_relay_state() {
+	return relay_state;
+}
+
 void* fan_on() {
 	pthread_mutex_lock(&mtx);
     signal_received = 1;

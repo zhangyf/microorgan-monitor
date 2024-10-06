@@ -13,11 +13,14 @@ SET(CMAKE_BUILD_TYPE "Debug")
 SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
+SET(CMAKE_VERBOSE_MAKEFILE ON)
+
 SET(SRC_LIST ${PROJECT_SOURCE_DIR}/src/main.c
 				${PROJECT_SOURCE_DIR}/src/lib/DHTXXWorkerThread.c
             	${PROJECT_SOURCE_DIR}/src/lib/DHTXX.c
 				${PROJECT_SOURCE_DIR}/src/lib/RelayThread.c
-            	${PROJECT_SOURCE_DIR}/src/lib/StepperMotor.c)
+            	${PROJECT_SOURCE_DIR}/src/lib/StepperMotor.c
+            	${PROJECT_SOURCE_DIR}/src/lib/MarqueueThread.c)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++0x")
 
@@ -34,4 +37,5 @@ add_executable(${PROJECT_NAME} ${SRC_LIST})
 
 target_link_libraries(${PROJECT_NAME} 
 					pthread
-					wiringPi)
+					wiringPi
+					wiringPiDev)

@@ -2,6 +2,7 @@
 #define INCLUDE_MARQUEUE_THREAD_H
 
 #include "common.h"
+#include "lcd.h"
 
 #define LCD_RS  25
 #define LCD_E   24
@@ -16,8 +17,8 @@ pthread_cond_t marqueue_cond;
 uint16 lcd;
 char message[1024];
 uint16 message_len;
-uint16 position = 0;
-const uint16 show_delay = 500000;
+// uint16 position = 0;
+//const uint16 show_delay = 500000;
 
 void* marqueue_init();
 void* marqueue_thread(void* arg);

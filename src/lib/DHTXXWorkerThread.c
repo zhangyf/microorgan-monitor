@@ -35,8 +35,12 @@ void *start(void *arg)
                    (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY),
                    DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time));
 
+			int relay_state = get_relay_state();
             // 高温（温度不低于50°）高湿（湿度不低于50%）环境，且距离上次翻堆超过3天，则需要翻堆
-            if (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE && dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY && DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time))
+            if (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE 
+						&& dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY 
+						&& DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time)
+						&& relay_state == FAN_OFF)
             {
                 if (start_motor_cnt++ > START_MOTOR_THRESHOLD)
                 {
@@ -47,12 +51,13 @@ void *start(void *arg)
                     start_motor_cnt = 0;
                 }
             }
-            else if (dhtxxGetTemperature(&mDHT) <= LOW_TEMPERATURE)
+            else if (dhtxxGetTemperature(&mDHT) <= LOW_TEMPERATURE && relay_state == FAN_ON)
             {
                 if (stop_motor_cnt++ > STOP_MOTOR_THRESHOLD)
                 {
                     stop_motor(); // 停止翻堆
                     fan_off(); // 关闭风扇
+                    printf("stop_motor and fan_off\n");
                     stop_motor_cnt = 0;
                 }
             }
@@ -63,22 +68,24 @@ void *start(void *arg)
             }
 
             // 湿度低于阈值，开始加湿，并翻堆
-            if (dhtxxGetHumidity(&mDHT) <= LOW_HUMIDITY)
+            if (dhtxxGetHumidity(&mDHT) <= LOW_HUMIDITY && relay_state == WATER_PUMP_OFF)
             {
                 if (start_watering_cnt++ > START_WATERING_THRESHOLD)
                 {
                     start_motor(); // 翻堆
                     water_pump_on(); // 加湿
-                    // last_fandui_time = time(NULL);
+                    last_fandui_time = time(NULL);
+                    printf("start_motor and water_pump_on and %d\n", last_fandui_time);
                     start_watering_cnt = 0;
                 }
             }
-            else if (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY)
+            else if (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY && relay_state == WATER_PUMP_ON)
             {
                 if (stop_watering_cnt++ > STOP_WATERING_THRESHOLD)
                 {
                     stop_motor(); //停止翻堆
                     water_pump_off(); // 停止加湿
+                    printf("stop_motor and water_pump_off\n");
                     stop_watering_cnt = 0;
                 }
             }

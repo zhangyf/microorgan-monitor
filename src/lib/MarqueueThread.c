@@ -2,6 +2,11 @@
 
 void* marqueue_init() {
 
+    if (wiringPiSetup() == -1) {
+        fprintf(stderr, "Failed to initialize wiringPi.\n");
+        exit(1);
+    }
+
     pthread_mutex_init(&marqueue_mutex, NULL);
     pthread_cond_init(&marqueue_cond, NULL);
 
@@ -9,7 +14,7 @@ void* marqueue_init() {
 
     if (lcd == -1) {
         printf("Failed to initialize LCD\n");
-        return 1;
+        exit(1);
     }
 
     // 清除LCD屏幕
@@ -22,6 +27,9 @@ void* marqueue_thread(void* arg) {
         fprintf(stderr, "Failed to initialize wiringPi.\n");
         exit(1);
     }
+
+	uint16 position = 0;
+	const uint16 show_delay = 500000;
 
     while (1) {
         pthread_mutex_lock(&marqueue_mutex);

@@ -10,6 +10,7 @@
 #include <semaphore.h>
 #include <signal.h>
 #include <time.h>
+#include <string.h>
 
 typedef unsigned char uint8;
 typedef unsigned int  uint16;
