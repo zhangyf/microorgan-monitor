@@ -4,7 +4,8 @@
 
 #include "DHTXX.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
 
     std::cout << "hello world" << std::endl;
     DHTXX dhtxx;
@@ -14,7 +15,7 @@ int main(int argc, char* argv[]) {
     std::cout << dhtxx.GetPinNum() << std::endl;
     std::cout << dhtxx.GetTimestamp() << std::endl;
 
-    std::thread dhtxx_thread(&DHTXX::Start, &dhtxx);
+    std::thread dhtxx_thread(&DHTXX::Loop, &dhtxx);
 
     dhtxx_thread.join();
 
@@ -41,7 +42,7 @@ int main(int argc, char* argv[]) {
     // }
 
     // // 初始化步进电机驱动
-	// motor_result = pthread_create(&motor_tid, NULL, motor_thread, NULL);
+    // motor_result = pthread_create(&motor_tid, NULL, motor_thread, NULL);
     // if (motor_result != 0) {
     //     perror("Failed to create thread");
     //     return -1;
@@ -50,13 +51,13 @@ int main(int argc, char* argv[]) {
     // relay_result = pthread_create(&relay_tid, NULL, relay_thread, NULL);
     // if (relay_result != 0) {
     //     perror("Failed to create thread");
-    //     return -1;        
+    //     return -1;
     // }
 
     // marqueue_result = pthread_create(&marqueue_tid, NULL, marqueue_thread, NULL);
     // if (marqueue_result != 0) {
     //     perror("Failed to create thread");
-    //     return -1;        
+    //     return -1;
     // }
 
     // update_message("Hello LCD!");

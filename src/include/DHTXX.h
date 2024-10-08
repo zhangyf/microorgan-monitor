@@ -3,18 +3,19 @@
 
 #include "common.h"
 
-#define HIGH_TIME                   32
-#define DHT11_PIN                   27
-#define HIGH_TEMPERATURE            32
-#define LOW_TEMPERATURE             25
-#define HIGH_HUMIDITY               70
-#define LOW_HUMIDITY                30
-#define START_MOTOR_THRESHOLD       3
-#define STOP_MOTOR_THRESHOLD        3
-#define START_WATERING_THRESHOLD    3
-#define STOP_WATERING_THRESHOLD     3
+#define HIGH_TIME 32
+#define DHT11_PIN 27
+#define HIGH_TEMPERATURE 32
+#define LOW_TEMPERATURE 25
+#define HIGH_HUMIDITY 70
+#define LOW_HUMIDITY 30
+#define START_MOTOR_THRESHOLD 3
+#define STOP_MOTOR_THRESHOLD 3
+#define START_WATERING_THRESHOLD 3
+#define STOP_WATERING_THRESHOLD 3
 
-class DHTXX {
+class DHTXX
+{
 public:
     DHTXX();
     ~DHTXX() {};
@@ -24,18 +25,21 @@ public:
     float GetTemperature() const;
     float GetHumidity() const;
 
-    void SetTimestamp(unsigned long timestamp);
+    void SetTimestamp(unsigned long long timestamp);
     void SetPinNum(const unsigned int pin_num);
 
-    void Start();
+    void Loop();
+
 private:
     void UpdateCurrentTimestamp();
+    bool StopLoop();
 
     unsigned int pin_num_;
     unsigned long data_buf_;
     unsigned long long timestamp_;
     float temperature_;
     float humidity_;
+    bool exit_condition_;
 };
 
 // uint8 exit_condition;
