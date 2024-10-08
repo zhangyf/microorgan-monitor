@@ -3,6 +3,8 @@
 
 #include "common.h"
 
+namespace microorgan_monitor
+{
 #define HIGH_TIME 32
 #define DHT11_PIN 27
 #define HIGH_TEMPERATURE 32
@@ -14,33 +16,40 @@
 #define START_WATERING_THRESHOLD 3
 #define STOP_WATERING_THRESHOLD 3
 
-class DHTXX
-{
-public:
-    DHTXX();
-    ~DHTXX() {};
+    class DHTXX
+    {
+    public:
+        DHTXX();
+        ~DHTXX() {};
 
-    unsigned int GetPinNum() const;
-    unsigned long long GetTimestamp() const;
-    float GetTemperature() const;
-    float GetHumidity() const;
+        unsigned int GetPinNum() const;
+        unsigned long long GetTimestamp() const;
+        float GetTemperature() const;
+        float GetHumidity() const;
 
-    void SetTimestamp(unsigned long long timestamp);
-    void SetPinNum(const unsigned int pin_num);
+        void SetTimestamp(unsigned long long timestamp);
+        void SetPinNum(const unsigned int pin_num);
+        void SetHumidity(const float humidity);
+        void SetTemperature(const float temperature);
 
-    void Loop();
+        void Loop();
 
-private:
-    void UpdateCurrentTimestamp();
-    bool StopLoop();
+    private:
+        void UpdateCurrentTimestamp();
+        bool StopLoop();
+        bool ReadData();
+        void Reset();
+        void IncDataBuf();
+        unsigned long GetDataBuf();
 
-    unsigned int pin_num_;
-    unsigned long data_buf_;
-    unsigned long long timestamp_;
-    float temperature_;
-    float humidity_;
-    bool exit_condition_;
-};
+        unsigned int pin_num_;
+        std::shared_ptr<unsigned long> data_buf_;
+        unsigned long long timestamp_;
+        float temperature_;
+        float humidity_;
+        bool exit_condition_;
+    };
+}
 
 // uint8 exit_condition;
 

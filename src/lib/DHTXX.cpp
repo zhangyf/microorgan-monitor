@@ -1,62 +1,95 @@
 #include "DHTXX.h"
+#include "Relay.h"
 
-DHTXX::DHTXX() : pin_num_(0), data_buf_(0), timestamp_(0), temperature_(0.0), humidity_(0.0), exit_condition_(false)
+microorgan_monitor::DHTXX::DHTXX() : pin_num_(0), timestamp_(0), temperature_(0.0), humidity_(0.0), exit_condition_(false)
 {
     UpdateCurrentTimestamp();
+    std::shared_ptr<unsigned long> data_buf_ = std::make_shared<unsigned long>(0);
 }
 
-unsigned int DHTXX::GetPinNum() const
+// Getter functions
+unsigned int microorgan_monitor::DHTXX::GetPinNum() const
 {
     return pin_num_;
 }
 
-unsigned long long DHTXX::GetTimestamp() const
+unsigned long long microorgan_monitor::DHTXX::GetTimestamp() const
 {
     return timestamp_;
 }
 
-float DHTXX::GetTemperature() const
+float microorgan_monitor::DHTXX::GetTemperature() const
 {
     return temperature_;
 }
 
-float DHTXX::GetHumidity() const
+float microorgan_monitor::DHTXX::GetHumidity() const
 {
     return humidity_;
 }
 
-void DHTXX::SetPinNum(const unsigned int pin_num)
+unsigned long microorgan_monitor::DHTXX::GetDataBuf()
+{
+    return *data_buf_;
+}
+
+// Setter functions
+void microorgan_monitor::DHTXX::SetPinNum(const unsigned int pin_num)
 {
     pin_num_ = pin_num;
 }
 
-void DHTXX::UpdateCurrentTimestamp()
+void microorgan_monitor::DHTXX::UpdateCurrentTimestamp()
 {
     auto now = std::chrono::system_clock::now().time_since_epoch();
     SetTimestamp(std::chrono::duration_cast<std::chrono::milliseconds>(now).count());
 }
 
-void DHTXX::SetTimestamp(unsigned long long timestamp)
+void microorgan_monitor::DHTXX::SetTimestamp(unsigned long long timestamp)
 {
     timestamp_ = timestamp;
 }
 
-bool DHTXX::StopLoop()
+void microorgan_monitor::DHTXX::SetHumidity(const float humidity) 
+{
+    humidity_ = humidity;
+}
+
+void microorgan_monitor::DHTXX::SetTemperature(const float temperature)
+{
+    temperature_ = temperature;
+}
+
+void microorgan_monitor::DHTXX::Reset()
+{
+    SetHumidity(0.0);
+    SetTemperature(0.0);
+    SetTimestamp(0);
+    data_buf_ = std::make_shared<unsigned long>(0);
+    exit_condition_ = false;
+}
+
+void microorgan_monitor::DHTXX::IncDataBuf()
+{
+    ++(*data_buf_);
+}
+
+bool microorgan_monitor::DHTXX::StopLoop()
 {
     return exit_condition_;
 }
 
-void DHTXX::Loop()
+void microorgan_monitor::DHTXX::Loop()
 {
     std::cout << "DHTXX thread Loop()" << std::endl;
     while (!StopLoop())
     {
         /*
-        pinMode(mDHT.pinNum, OUTPUT);    // set mode to output
-        digitalWrite(mDHT.pinNum, HIGH); // output a high level
+        pinMode(GetPinNum(), OUTPUT);    // set mode to output
+        digitalWrite(GetPinNum(), HIGH); // output a high level
         delay(3000);
 
-        if (dhtxxRead(&mDHT))
+        if (ReadData())
         {
             printf("DHT11 Sensor data read ok!\t{\"timestamp\":\t%ld\t\"humidity\":\t%.1f%(%d)\t\"temperature\":\t%.1f C(%d)\t exist_condition: %d} %d %d %d\n",
                    dhtxxGetTimestamp(&mDHT),
@@ -124,138 +157,74 @@ void DHTXX::Loop()
         {
             printf("Sensor dosen't ans!\n");
         }
-        dhtxxReset(&mDHT);
+        Reset();
         */
 
         UpdateCurrentTimestamp();
         std::cout << "DHTXX thread UpdateCurrentTimestamp() " << GetTimestamp() << std::endl;
+        break;
     }
 }
 
-// int dhtxxInitialize(DHT11 *self, int pin)
-// {
-//     self->pinNum = pin;
-//     self->databuf = 0;
-
-//     printf("PIN:\t%d\n", self->pinNum);
-//     if (-1 == wiringPiSetup())
-//     {
-//         printf("DHTXX Setup wiringPi failed!");
-//         return 1;
-//     }
-//     else
-//     {
-//         printf("DHTXX Successfully setup wiringPi!\n");
-//     }
-
-//     time_t currentTime = time(NULL);
-//     if (currentTime == -1)
-//     {
-//         self->timestamp = -1;
-//     }
-//     else
-//     {
-//         self->timestamp = (long)currentTime;
-//     }
-
-//     return 0;
-// }
-
-// float dhtxxGetTemperature(DHT11 *self)
-// {
-//     return self->temperature;
-// }
-
-// float dhtxxGetHumidity(DHT11 *self)
-// {
-//     return self->humidity;
-// }
-
-// long dhtxxGetTimestamp(DHT11 *self)
-// {
-//     return self->timestamp;
-// }
-
-// void dhtxxReset(DHT11 *self)
-// {
-//     self->humidity = 0.0;
-//     self->temperature = 0.0;
-//     self->databuf = 0;
-
-//     time_t currentTime = time(NULL);
-//     if (currentTime == -1)
-//     {
-//         self->timestamp = -1;
-//     }
-//     else
-//     {
-//         self->timestamp = (long)currentTime;
-//     }
-// }
-
-uint8 dhtxxRead(DHT11 *self)
+bool microorgan_monitor::DHTXX::ReadData()
 {
-    uint8 crc;
-    uint8 i;
+    unsigned char crc;
 
-    pinMode(self->pinNum, OUTPUT);   // set mode to output
-    digitalWrite(self->pinNum, LOW); // output a low level
+    /*
+    pinMode(GetPinNum(), OUTPUT);   // set mode to output
+    digitalWrite(GetPinNum(), LOW); // output a low level
     delay(25);
-    digitalWrite(self->pinNum, HIGH); // output a high level
-    pinMode(self->pinNum, INPUT);     // set mode to input
-    pullUpDnControl(self->pinNum, PUD_UP);
+    digitalWrite(GetPinNum(), HIGH); // output a high level
+    pinMode(GetPinNum(), INPUT);     // set mode to input
+    pullUpDnControl(GetPinNum(), PUD_UP);
 
     delayMicroseconds(27);
-    if (digitalRead(self->pinNum) == 0) // SENSOR ANS
+
+    if (digitalRead(GetPinNum()) == 0) // SENSOR ANS
     {
-        while (!digitalRead(self->pinNum))
+        while (!digitalRead(GetPinNum()))
             ; // wait to high
 
-        for (i = 0; i < 32; i++)
+        for (int i = 0; i < 32; i++)
         {
-            while (digitalRead(self->pinNum))
+            while (digitalRead(GetPinNum()))
                 ; // data clock start
-            while (!digitalRead(self->pinNum))
+            while (!digitalRead(GetPinNum()))
                 ; // data start
             delayMicroseconds(HIGH_TIME);
-            self->databuf *= 2;
-            if (digitalRead(self->pinNum) == 1) // 1
+            (*data_buf_) *= 2;
+            if (digitalRead(GetPinNum()) == 1) // 1
             {
-                self->databuf++;
+                IncDataBuf();
             }
         }
 
-        for (i = 0; i < 8; i++)
+        for (int i = 0; i < 8; i++)
         {
-            while (digitalRead(self->pinNum))
+            while (digitalRead(GetPinNum()))
                 ; // data clock start
-            while (!digitalRead(self->pinNum))
+            while (!digitalRead(GetPinNum()))
                 ; // data start
             delayMicroseconds(HIGH_TIME);
             crc *= 2;
-            if (digitalRead(self->pinNum) == 1) // 1
+            if (digitalRead(GetPinNum()) == 1) // 1
             {
                 crc++;
             }
         }
 
-        self->humidity = ((self->databuf >> 24) & 0xff) + ((self->databuf >> 16) & 0xff) / 1000.0;
-        self->temperature = ((self->databuf >> 8) & 0x7f) + (self->databuf & 0xff) / 10.0 - 3.0;
+        SetHumidity(((GetDataBuf() >> 24) & 0xff) + ((GetDataBuf() >> 16) & 0xff) / 1000.0);
+        SetTemperature(((GetDataBuf() >> 8) & 0x7f) + (GetDataBuf() & 0xff) / 10.0 - 3.0);
+        UpdateCurrentTimestamp();
 
-        time_t currentTime = time(NULL);
-        if (currentTime == -1)
-        {
-            self->timestamp = -1;
-        }
-        else
-        {
-            self->timestamp = (long)currentTime;
-        }
-        return 1;
+        return true;
     }
     else
     {
-        dhtxxReset(self);
-        return 0;
+        Reset();
+        return false;
     }
+    */
+   crc++;
+   return true;
 }

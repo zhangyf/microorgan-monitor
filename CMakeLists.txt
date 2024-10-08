@@ -16,7 +16,8 @@ SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 SET(SRC_LIST ${PROJECT_SOURCE_DIR}/src/main.cpp
-				${PROJECT_SOURCE_DIR}/src/lib/DHTXX.cpp)
+				${PROJECT_SOURCE_DIR}/src/lib/DHTXX.cpp
+				${PROJECT_SOURCE_DIR}/src/lib/Relay.cpp)
 				# ${PROJECT_SOURCE_DIR}/src/lib/DHTXXWorkerThread.c
             	# ${PROJECT_SOURCE_DIR}/src/lib/DHTXX.c
 				# ${PROJECT_SOURCE_DIR}/src/lib/RelayThread.c

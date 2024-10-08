@@ -3,21 +3,26 @@
 // #include "MarqueueThread.h"
 
 #include "DHTXX.h"
+#include "Relay.h"
 
 int main(int argc, char *argv[])
 {
-
-    std::cout << "hello world" << std::endl;
-    DHTXX dhtxx;
+    microorgan_monitor::DHTXX dhtxx;
+    microorgan_monitor::Relay relay;
 
     dhtxx.SetPinNum(DHT11_PIN);
+    relay.SetFanPinNum(FAN_PIN);
+    relay.SetWaterPumpPinNum(WATER_PUMP_PIN);
 
-    std::cout << dhtxx.GetPinNum() << std::endl;
-    std::cout << dhtxx.GetTimestamp() << std::endl;
+    std::cout <<"DHTXX Pin:\t" << dhtxx.GetPinNum() << std::endl;
+    std::cout <<"FAN Pin:\t" << relay.GetFanPinNum() << std::endl;
+    std::cout <<"WATER_PUMP Pin:\t" << relay.GetWaterPumpPinNum() << std::endl;
 
-    std::thread dhtxx_thread(&DHTXX::Loop, &dhtxx);
+    std::thread dhtxx_thread(&microorgan_monitor::DHTXX::Loop, &dhtxx);
+    std::thread relay_thread(&microorgan_monitor::Relay::Loop, &relay);
 
     dhtxx_thread.join();
+    relay_thread.join();
 
     // pthread_t dhtxx_tid, motor_tid, relay_tid, marqueue_tid;
     // int dhtxx_result, motor_result, relay_result, marqueue_result;
