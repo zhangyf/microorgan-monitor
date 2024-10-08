@@ -2,6 +2,7 @@
 #define INCLUDE_COMMON_H_
 
 #include <wiringPi.h>
+#include <wiringPiI2C.h>
 #include <stddef.h> 
 #include <stdio.h>
 #include <stdlib.h>
