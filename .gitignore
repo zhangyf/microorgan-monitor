@@ -60,7 +60,6 @@ compile_commands.json
 .cmake/
 cmake_*
 micro-organism-monitor
-DHT11.c
-
+build/
 .ninja*
 build.ninja
