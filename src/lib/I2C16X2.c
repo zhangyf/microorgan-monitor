@@ -101,12 +101,12 @@ void print_string(const char *s) {
 void print_float(float myFloat) {
 	char buffer[20];
 	sprintf(buffer, "%4.2f", myFloat);
-	typeString(buffer);
+	print_string(buffer);
 }
 
 // print integer as string
 void print_int(int i) {
 	char array1[20];
 	sprintf(array1, "%d", i);
-	typeString(array1);
+	print_string(array1);
 }

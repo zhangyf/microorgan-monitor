@@ -1,6 +1,6 @@
 #include "DHTXXWorkerThread.h"
 #include "StepperMotor.h"
-#include "MarqueueThread.h"
+//#include "MarqueueThread.h"
 
 int main()
 {
@@ -17,7 +17,7 @@ int main()
         return 1;
     }
 
-    marqueue_init();
+//    marqueue_init();
 
     // 创建DHTXX 工作线程，执行start函数
     dhtxx_result = pthread_create(&dhtxx_tid, NULL, start, NULL);
@@ -71,7 +71,7 @@ int main()
     pthread_join(dhtxx_tid, NULL);
     pthread_join(motor_tid, NULL);
     pthread_join(relay_tid, NULL);
-    pthread_join(marqueue_tid, NULL);
+//    pthread_join(marqueue_tid, NULL);
     printf("All threads finished.\n");
 
     return 0;

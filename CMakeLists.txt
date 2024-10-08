@@ -20,8 +20,8 @@ SET(SRC_LIST ${PROJECT_SOURCE_DIR}/src/main.c
             	${PROJECT_SOURCE_DIR}/src/lib/DHTXX.c
 				${PROJECT_SOURCE_DIR}/src/lib/RelayThread.c
             	${PROJECT_SOURCE_DIR}/src/lib/StepperMotor.c
-				${PROJECT_SOURCE_DIR}/src/lib/I2C16X2.c
-            	${PROJECT_SOURCE_DIR}/src/lib/MarqueueThread.c)
+				${PROJECT_SOURCE_DIR}/src/lib/I2C16X2.c)
+				#            	${PROJECT_SOURCE_DIR}/src/lib/MarqueueThread.c)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++0x")
 
