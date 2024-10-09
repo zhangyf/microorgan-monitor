@@ -2,8 +2,8 @@
 
 namespace microorgan_monitor
 {
-    std::mutex mtx;
-    sem_t sem;
+    std::mutex relay_mtx;
+    sem_t relay_sem;
 }
 
 unsigned int microorgan_monitor::Relay::GetFanPinNum() const
@@ -48,34 +48,34 @@ void microorgan_monitor::Relay::SetRelayState(unsigned int relay_state)
 
 void microorgan_monitor::Relay::FanOn()
 {
-    std::unique_lock<std::mutex> lock(mtx);
+    std::unique_lock<std::mutex> lock(relay_mtx);
     SetSignalReceived(true);
     SetRelayState(FAN_ON);
-    sem_post(&sem);
+    sem_post(&relay_sem);
 }
 
 void microorgan_monitor::Relay::FanOff()
 {
-    std::unique_lock<std::mutex> lock(mtx);
+    std::unique_lock<std::mutex> lock(relay_mtx);
     SetSignalReceived(true);
     SetRelayState(FAN_OFF);
-    sem_post(&sem);
+    sem_post(&relay_sem);
 }
 
 void microorgan_monitor::Relay::WaterPumpOn()
 {
-    std::unique_lock<std::mutex> lock(mtx);
+    std::unique_lock<std::mutex> lock(relay_mtx);
     SetSignalReceived(true);
     SetRelayState(WATER_PUMP_ON);
-    sem_post(&sem);
+    sem_post(&relay_sem);
 }
 
 void microorgan_monitor::Relay::WaterPumpOff()
 {
-    std::unique_lock<std::mutex> lock(mtx);
+    std::unique_lock<std::mutex> lock(relay_mtx);
     SetSignalReceived(true);
     SetRelayState(WATER_PUMP_OFF);
-    sem_post(&sem);
+    sem_post(&relay_sem);
 }
 
 void microorgan_monitor::Relay::Loop()
@@ -95,7 +95,7 @@ void microorgan_monitor::Relay::Loop()
     while (1) {
         std::unique_lock<std::mutex> lock(mtx);
         while (!GetSignalReceived()) {
-            sem_wait(&sem);
+            sem_wait(&relay_sem);
         }
 
         if (GetRelayState() == FAN_ON) {

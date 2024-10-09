@@ -5,8 +5,8 @@
 
 namespace microorgan_monitor 
 {
-extern std::mutex mtx;
-extern sem_t sem;
+extern std::mutex relay_mtx;
+extern sem_t relay_sem;
 
 #define FAN_PIN         28
 #define WATER_PUMP_PIN  29

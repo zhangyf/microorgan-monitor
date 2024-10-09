@@ -4,11 +4,13 @@
 
 #include "DHTXX.h"
 #include "Relay.h"
+#include "StepperMotor.h"
 
 int main(int argc, char *argv[])
 {
     microorgan_monitor::DHTXX dhtxx;
     microorgan_monitor::Relay relay;
+    microorgan_monitor::StepperMonitor stepper_motor;
 
     dhtxx.SetPinNum(DHT11_PIN);
     relay.SetFanPinNum(FAN_PIN);
@@ -17,12 +19,20 @@ int main(int argc, char *argv[])
     std::cout <<"DHTXX Pin:\t" << dhtxx.GetPinNum() << std::endl;
     std::cout <<"FAN Pin:\t" << relay.GetFanPinNum() << std::endl;
     std::cout <<"WATER_PUMP Pin:\t" << relay.GetWaterPumpPinNum() << std::endl;
+    std::cout <<"STEP_MOTOR Pins:\t";
+    for (auto it = stepper_motor.GetPins().begin(); it != stepper_motor.GetPins().end(); it++)
+    {
+        std::cout << (*it) << " ";
+    }
+    std::cout << std::endl;
 
     std::thread dhtxx_thread(&microorgan_monitor::DHTXX::Loop, &dhtxx);
     std::thread relay_thread(&microorgan_monitor::Relay::Loop, &relay);
+    std::thread stepper_motor_thread(&microorgan_monitor::StepperMonitor::Loop, &stepper_motor);
 
     dhtxx_thread.join();
     relay_thread.join();
+    stepper_motor_thread.join();
 
     // pthread_t dhtxx_tid, motor_tid, relay_tid, marqueue_tid;
     // int dhtxx_result, motor_result, relay_result, marqueue_result;
