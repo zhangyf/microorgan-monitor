@@ -39,13 +39,13 @@ int main()
         return -1;        
     }
 
-//    marqueue_result = pthread_create(&marqueue_tid, NULL, marqueue_thread, NULL);
-//    if (marqueue_result != 0) {
-//        perror("Failed to create thread");
-//        return -1;        
-//    }
-//
-//    update_message("Hello LCD!");
+   marqueue_result = pthread_create(&marqueue_tid, NULL, marqueue_thread, NULL);
+   if (marqueue_result != 0) {
+       perror("Failed to create thread");
+       return -1;        
+   }
+
+   update_message("Hello LCD!");
 
 //	printf("delay 10s to wait .....\n");
 //	delay(10000);

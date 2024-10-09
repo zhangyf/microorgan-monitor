@@ -63,3 +63,4 @@ micro-organism-monitor
 DHT11.c
 build.ninja
 *.ninja*
+build/
