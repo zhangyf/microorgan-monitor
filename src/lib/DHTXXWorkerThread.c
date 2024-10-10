@@ -35,9 +35,6 @@ void *start(void *arg)
                    (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE),
                    (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY),
                    DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time));
-			//clear_lcd();
-			//print_char('H');
-			//print_float(dhtxxGetHumidity(&mDHT));
 			char msg[17];
 			snprintf(msg, 17, "H:%.1f% T:%.1f C", dhtxxGetHumidity(&mDHT), dhtxxGetTemperature(&mDHT));
 			printf("%s\n", msg);

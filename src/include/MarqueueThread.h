@@ -14,8 +14,9 @@
 
 #define LCD_ADDR 0x27
 
-pthread_mutex_t marqueue_mutex;
-pthread_cond_t marqueue_cond;
+extern pthread_mutex_t marqueue_mutex;
+extern pthread_cond_t marqueue_cond;
+extern int marqueue_signal_received;
 
 I2C16x2 lcd;
 char message[1024];

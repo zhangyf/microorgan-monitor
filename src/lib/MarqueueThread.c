@@ -3,6 +3,7 @@
 char message[1024];
 pthread_mutex_t marqueue_mutex;
 pthread_cond_t marqueue_cond;
+int marqueue_signal_received = 0;
 uint16 message_len;
 
 // void* marqueue_init() {
@@ -41,6 +42,9 @@ void* marqueue_thread(void* arg) {
 
     while (1) {
         pthread_mutex_lock(&marqueue_mutex);
+		while(!marqueue_signal_received) {
+			pthread_cond_wait(&marqueue_cond, &marqueue_mutex);
+		}
         // 清除当前显示的内容
         // lcdPosition(lcd, position, 0);
         // lcdPuts(lcd, "                "); // 用空格覆盖当前内容
@@ -55,10 +59,11 @@ void* marqueue_thread(void* arg) {
         // lcdPosition(lcd, position, 0);
         // lcdPuts(lcd, message);
 
+		marqueue_signal_received = 0;
         pthread_mutex_unlock(&marqueue_mutex);
 
         // 延迟一段时间
-        usleep(show_delay); // 延迟500毫秒
+        //usleep(show_delay); // 延迟500毫秒
     }
 }
 
@@ -66,6 +71,7 @@ void* update_message(const char* new_message) {
     pthread_mutex_lock(&marqueue_mutex);
     strncpy(message, new_message, sizeof(message) - 1);
     message_len = strlen(message);
+	marqueue_signal_received = 1;
     pthread_cond_signal(&marqueue_cond);
     pthread_mutex_unlock(&marqueue_mutex);
 }
