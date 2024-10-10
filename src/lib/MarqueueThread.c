@@ -1,5 +1,4 @@
-// #include "MarqueueThread.h"
-#include "I2C16X2.h"
+#include "MarqueueThread.h"
 
 char message[1024];
 pthread_mutex_t marqueue_mutex;
@@ -34,6 +33,7 @@ void* marqueue_thread(void* arg) {
         exit(1);
     }
 
+    lcd_init(LCD_ADDR);
 	uint16 position = 0;
 	const uint16 show_delay = 500000;
 

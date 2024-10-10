@@ -12,10 +12,12 @@
 // #define LCD_D6  17
 // #define LCD_D7  11
 
+#define LCD_ADDR 0x27
+
 pthread_mutex_t marqueue_mutex;
 pthread_cond_t marqueue_cond;
 
-uint16 lcd;
+I2C16x2 lcd;
 char message[1024];
 uint16 message_len;
 // uint16 position = 0;
