@@ -2,14 +2,15 @@
 #define INCLUDE_MARQUEUE_THREAD_H
 
 #include "common.h"
-#include "lcd.h"
+#include "I2C16X2.h"
+//#include "lcd.h"
 
-#define LCD_RS  25
-#define LCD_E   24
-#define LCD_D4  23
-#define LCD_D5  18
-#define LCD_D6  17
-#define LCD_D7  11
+// #define LCD_RS  25
+// #define LCD_E   24
+// #define LCD_D4  23
+// #define LCD_D5  18
+// #define LCD_D6  17
+// #define LCD_D7  11
 
 pthread_mutex_t marqueue_mutex;
 pthread_cond_t marqueue_cond;
