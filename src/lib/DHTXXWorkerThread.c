@@ -26,6 +26,7 @@ void *start(void *arg)
         delay(3000);
         if (dhtxxRead(&mDHT))
         {
+
             printf("DHT11 Sensor data read ok!\t{\"timestamp\":\t%ld\t\"humidity\":\t%.1f%(%d)\t\"temperature\":\t%.1f C(%d)\t exist_condition: %d} %d %d %d\n",
                    dhtxxGetTimestamp(&mDHT),
                    dhtxxGetHumidity(&mDHT), HIGH_HUMIDITY,
@@ -34,6 +35,15 @@ void *start(void *arg)
                    (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE),
                    (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY),
                    DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time));
+			//clear_lcd();
+			//print_char('H');
+			//print_float(dhtxxGetHumidity(&mDHT));
+			char msg[17];
+			snprintf(msg, 17, "H:%.1f% T:%.1f C", dhtxxGetHumidity(&mDHT), dhtxxGetTemperature(&mDHT));
+			printf("%s\n", msg);
+			update_message(msg);
+			memset(msg, '\0', sizeof(msg));
+
 
 			int relay_state = get_relay_state();
             // 高温（温度不低于50°）高湿（湿度不低于50%）环境，且距离上次翻堆超过3天，则需要翻堆

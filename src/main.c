@@ -1,6 +1,5 @@
 #include "DHTXXWorkerThread.h"
 #include "StepperMotor.h"
-#include "MarqueueThread.h"
 
 int main()
 {
@@ -45,7 +44,7 @@ int main()
        return -1;        
    }
 
-   update_message("Hello LCD!");
+//   update_message("Hello LCD!");
 
 //	printf("delay 10s to wait .....\n");
 //	delay(10000);
