@@ -1,77 +1,68 @@
 #include "MarqueueThread.h"
 
-char message[1024];
 pthread_mutex_t marqueue_mutex;
 pthread_cond_t marqueue_cond;
 int marqueue_signal_received = 0;
-uint16 message_len;
 
-// void* marqueue_init() {
+char line1_message[1024];
+uint16 line1_message_len;
 
-//     if (wiringPiSetup() == -1) {
-//         fprintf(stderr, "Failed to initialize wiringPi.\n");
-//         exit(1);
-//     }
+char line2_message[1024];
+uint16 line2_message_len;
 
-//     pthread_mutex_init(&marqueue_mutex, NULL);
-//     pthread_cond_init(&marqueue_cond, NULL);
-
-//     lcd = lcdInit(2, 16, 4, LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7, 0, 0, 0, 0);
-
-//     if (lcd == -1) {
-//         printf("Failed to initialize LCD\n");
-//         exit(1);
-//     }
-
-//     // 清除LCD屏幕
-//     lcdClear(lcd);
-// }
-
-void* marqueue_thread(void* arg) {
+void *marqueue_thread(void *arg)
+{
     // 初始化wiringPi库
-    if (wiringPiSetup() == -1) {
+    if (wiringPiSetup() == -1)
+    {
         fprintf(stderr, "Failed to initialize wiringPi.\n");
         exit(1);
     }
 
     lcd_init(LCD_ADDR);
-	uint16 position = 0;
-	const uint16 show_delay = 500000;
+    // uint16 position = 0;
+    // const uint16 show_delay = 500000;
 
     clear_lcd();
 
-    while (1) {
+    while (1)
+    {
         pthread_mutex_lock(&marqueue_mutex);
-		while(!marqueue_signal_received) {
-			pthread_cond_wait(&marqueue_cond, &marqueue_mutex);
-		}
+        while (!marqueue_signal_received)
+        {
+            pthread_cond_wait(&marqueue_cond, &marqueue_mutex);
+        }
         // 清除当前显示的内容
-        // lcdPosition(lcd, position, 0);
-        // lcdPuts(lcd, "                "); // 用空格覆盖当前内容
         clear_lcd();
         lcd_loc(LINE1);
-        print_string(message);
+        print_string(line1_message);
+        lcd_loc(LINE2);
+        print_string(line2_message);
 
-        // // 更新显示位置
-        // position = (position + 1) % 16;
-
-        // // 在新位置显示信息
-        // lcdPosition(lcd, position, 0);
-        // lcdPuts(lcd, message);
-
-		marqueue_signal_received = 0;
+        marqueue_signal_received = 0;
         pthread_mutex_unlock(&marqueue_mutex);
-
-        // 延迟一段时间
-        //usleep(show_delay); // 延迟500毫秒
     }
 }
 
-void* update_message(const char* new_message) {
+void *update_message(const char *new_message, unsigned int line)
+{
     pthread_mutex_lock(&marqueue_mutex);
-    strncpy(message, new_message, sizeof(message) - 1);
-    message_len = strlen(message);
-	marqueue_signal_received = 1;
+    if (line == LINE1)
+    {
+        strncpy(line1_message, new_message, sizeof(line1_message) - 1);
+        line1_message_len = strlen(line1_message);
+    }
+    else if (line == LINE2)
+    {
+        strncpy(line2_message, new_message, sizeof(line2_message) - 1);
+        line2_message_len = strlen(line2_message);
+    }
+    else
+    {
+        strncpy(line1_message, new_message, sizeof(line1_message) - 1);
+        line1_message_len = strlen(line1_message);
+    }
+    marqueue_signal_received = 1;
     pthread_cond_signal(&marqueue_cond);
     pthread_mutex_unlock(&marqueue_mutex);
 }
