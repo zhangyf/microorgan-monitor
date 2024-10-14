@@ -17,7 +17,8 @@ SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 SET(SRC_LIST ${PROJECT_SOURCE_DIR}/src/main.cpp
 				${PROJECT_SOURCE_DIR}/src/lib/DHTXX.cpp
-				${PROJECT_SOURCE_DIR}/src/lib/Relay.cpp)
+				${PROJECT_SOURCE_DIR}/src/lib/Relay.cpp
+				${PROJECT_SOURCE_DIR}/src/lib/I2C16X2.cpp)
 				# ${PROJECT_SOURCE_DIR}/src/lib/DHTXXWorkerThread.c
             	# ${PROJECT_SOURCE_DIR}/src/lib/DHTXX.c
 				# ${PROJECT_SOURCE_DIR}/src/lib/RelayThread.c
@@ -38,4 +39,6 @@ add_executable(${PROJECT_NAME} ${SRC_LIST})
 
 
 target_link_libraries(${PROJECT_NAME}
-						pthread)
+						pthread
+						wiringPi
+						wiringPiDev)

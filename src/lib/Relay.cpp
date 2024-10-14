@@ -81,7 +81,6 @@ void microorgan_monitor::Relay::WaterPumpOff()
 void microorgan_monitor::Relay::Loop()
 {
     std::cout << "Enter Relay Loop()" << std::endl;
-    /*
     // 初始化wiringPi库
     if (wiringPiSetup() == -1) {
         fprintf(stderr, "Failed to initialize wiringPi.\n");
@@ -120,5 +119,4 @@ void microorgan_monitor::Relay::Loop()
         SetSignalReceived(false);
         lock.unlock();
     }
-    */
 }

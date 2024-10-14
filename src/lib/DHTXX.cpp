@@ -84,7 +84,6 @@ void microorgan_monitor::DHTXX::Loop()
     std::cout << "DHTXX thread Loop()" << std::endl;
     while (!StopLoop())
     {
-        /*
         pinMode(GetPinNum(), OUTPUT);    // set mode to output
         digitalWrite(GetPinNum(), HIGH); // output a high level
         delay(3000);
@@ -158,7 +157,6 @@ void microorgan_monitor::DHTXX::Loop()
             printf("Sensor dosen't ans!\n");
         }
         Reset();
-        */
 
         UpdateCurrentTimestamp();
         std::cout << "DHTXX thread UpdateCurrentTimestamp() " << GetTimestamp() << std::endl;
