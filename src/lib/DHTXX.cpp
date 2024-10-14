@@ -91,32 +91,32 @@ void microorgan_monitor::DHTXX::Loop()
         if (ReadData())
         {
             printf("DHT11 Sensor data read ok!\t{\"timestamp\":\t%ld\t\"humidity\":\t%.1f%(%d)\t\"temperature\":\t%.1f C(%d)\t exist_condition: %d} %d %d %d\n",
-                   dhtxxGetTimestamp(&mDHT),
-                   dhtxxGetHumidity(&mDHT), HIGH_HUMIDITY,
-                   dhtxxGetTemperature(&mDHT), HIGH_TEMPERATURE,
-                   exit_condition,
-                   (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE),
-                   (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY),
-                   DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time));
+                   GetTimestamp(),
+                   GetHumidity(), HIGH_HUMIDITY,
+                   GetTemperature(), HIGH_TEMPERATURE,
+                   StopLoop(),
+                   (GetTemperature() > HIGH_TEMPERATURE),
+                   (GetHumidity() >= HIGH_HUMIDITY),
+                   DIFFERENCE_MORE_THAN_3_DAYS((time_t)GetTimestamp(), last_fandui_time));
 
             // 高温（温度不低于50°）高湿（湿度不低于50%）环境，且距离上次翻堆超过3天，则需要翻堆
-            if (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE && dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY && DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time))
+            if (GetTemperature() > HIGH_TEMPERATURE && GetHumidity() >= HIGH_HUMIDITY && DIFFERENCE_MORE_THAN_3_DAYS((time_t)GetTimestamp(), last_fandui_time))
             {
                 if (start_motor_cnt++ > START_MOTOR_THRESHOLD)
                 {
-                    start_motor(); // 翻堆
-                    fan_on(); //打开风扇
+                    StartMotor(); // 翻堆
+                    FanOn(); //打开风扇
                     last_fandui_time = time(NULL);
-                    printf("start_motor and fan_on and %d\n", last_fandui_time);
+                    printf("start_motor and FanOn and %d\n", last_fandui_time);
                     start_motor_cnt = 0;
                 }
             }
-            else if (dhtxxGetTemperature(&mDHT) <= LOW_TEMPERATURE)
+            else if (GetTemperature() <= LOW_TEMPERATURE)
             {
                 if (stop_motor_cnt++ > STOP_MOTOR_THRESHOLD)
                 {
-                    stop_motor(); // 停止翻堆
-                    fan_off(); // 关闭风扇
+                    StopMotor(); // 停止翻堆
+                    FanOff(); // 关闭风扇
                     stop_motor_cnt = 0;
                 }
             }
@@ -127,22 +127,22 @@ void microorgan_monitor::DHTXX::Loop()
             }
 
             // 湿度低于阈值，开始加湿，并翻堆
-            if (dhtxxGetHumidity(&mDHT) <= LOW_HUMIDITY)
+            if (GetHumidity() <= LOW_HUMIDITY)
             {
                 if (start_watering_cnt++ > START_WATERING_THRESHOLD)
                 {
-                    start_motor(); // 翻堆
-                    water_pump_on(); // 加湿
+                    StartMotor(); // 翻堆
+                    WaterPumpOn(); // 加湿
                     // last_fandui_time = time(NULL);
                     start_watering_cnt = 0;
                 }
             }
-            else if (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY)
+            else if (GetHumidity() >= HIGH_HUMIDITY)
             {
                 if (stop_watering_cnt++ > STOP_WATERING_THRESHOLD)
                 {
-                    stop_motor(); //停止翻堆
-                    water_pump_off(); // 停止加湿
+                    StopMotor(); //停止翻堆
+                    WaterPumpOff(); // 停止加湿
                     stop_watering_cnt = 0;
                 }
             }
@@ -168,7 +168,6 @@ bool microorgan_monitor::DHTXX::ReadData()
 {
     unsigned char crc;
 
-    /*
     pinMode(GetPinNum(), OUTPUT);   // set mode to output
     digitalWrite(GetPinNum(), LOW); // output a low level
     delay(25);
@@ -222,7 +221,6 @@ bool microorgan_monitor::DHTXX::ReadData()
         Reset();
         return false;
     }
-    */
    crc++;
    return true;
 }
