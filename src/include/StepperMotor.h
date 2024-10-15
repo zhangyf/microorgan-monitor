@@ -17,5 +17,6 @@ void*   motor_thread(void* arg);
 void    start_motor();
 void    stop_motor();
 int     stepper_motor_init();
+int     get_motor_state();
 
 #endif // INCLUDE_STEPPER_MOTER_H_

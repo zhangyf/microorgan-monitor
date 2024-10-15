@@ -3,26 +3,68 @@
 volatile int running = 1;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
-void setPin(int pin, int value) {
+void setPin(int pin, int value)
+{
     digitalWrite(pin, value);
 }
 
-void step() {
-    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); delay(2);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); delay(2);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 0); delay(2);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 1); delay(2);
-    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 0); delay(2);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 1); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 0); delay(2);
-    setPin(MOTOR_PIN_1, 0); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 1); setPin(MOTOR_PIN_4, 1); delay(2);
-    setPin(MOTOR_PIN_1, 1); setPin(MOTOR_PIN_2, 0); setPin(MOTOR_PIN_3, 0); setPin(MOTOR_PIN_4, 1); delay(2);
+int get_motor_state()
+{
+    return running;
 }
 
-void* motor_thread(void* arg) {
-    printf("start motor thread %d\n", running);
-    while (1) {
+void step()
+{
+    setPin(MOTOR_PIN_1, 1);
+    setPin(MOTOR_PIN_2, 0);
+    setPin(MOTOR_PIN_3, 0);
+    setPin(MOTOR_PIN_4, 0);
+    delay(2);
+    setPin(MOTOR_PIN_1, 0);
+    setPin(MOTOR_PIN_2, 1);
+    setPin(MOTOR_PIN_3, 0);
+    setPin(MOTOR_PIN_4, 0);
+    delay(2);
+    setPin(MOTOR_PIN_1, 0);
+    setPin(MOTOR_PIN_2, 0);
+    setPin(MOTOR_PIN_3, 1);
+    setPin(MOTOR_PIN_4, 0);
+    delay(2);
+    setPin(MOTOR_PIN_1, 0);
+    setPin(MOTOR_PIN_2, 0);
+    setPin(MOTOR_PIN_3, 0);
+    setPin(MOTOR_PIN_4, 1);
+    delay(2);
+    setPin(MOTOR_PIN_1, 1);
+    setPin(MOTOR_PIN_2, 1);
+    setPin(MOTOR_PIN_3, 0);
+    setPin(MOTOR_PIN_4, 0);
+    delay(2);
+    setPin(MOTOR_PIN_1, 0);
+    setPin(MOTOR_PIN_2, 1);
+    setPin(MOTOR_PIN_3, 1);
+    setPin(MOTOR_PIN_4, 0);
+    delay(2);
+    setPin(MOTOR_PIN_1, 0);
+    setPin(MOTOR_PIN_2, 0);
+    setPin(MOTOR_PIN_3, 1);
+    setPin(MOTOR_PIN_4, 1);
+    delay(2);
+    setPin(MOTOR_PIN_1, 1);
+    setPin(MOTOR_PIN_2, 0);
+    setPin(MOTOR_PIN_3, 0);
+    setPin(MOTOR_PIN_4, 1);
+    delay(2);
+}
+
+void *motor_thread(void *arg)
+{
+    fprintf(stdout, "start motor thread %d\n", running);
+    while (1)
+    {
         pthread_mutex_lock(&mutex);
-        if (running) {
+        if (running)
+        {
             step();
         }
         pthread_mutex_unlock(&mutex);
@@ -31,20 +73,24 @@ void* motor_thread(void* arg) {
     return NULL;
 }
 
-void start_motor() {
+void start_motor()
+{
     pthread_mutex_lock(&mutex);
     running = 1;
     pthread_mutex_unlock(&mutex);
 }
 
-void stop_motor() {
+void stop_motor()
+{
     pthread_mutex_lock(&mutex);
     running = 0;
     pthread_mutex_unlock(&mutex);
 }
 
-int stepper_motor_init() {
-    if (wiringPiSetup() == -1) {
+int stepper_motor_init()
+{
+    if (wiringPiSetup() == -1)
+    {
         fprintf(stderr, "WiringPi setup failed\n");
         return 1;
     }
@@ -53,10 +99,11 @@ int stepper_motor_init() {
     int ret;
 
     ret = pthread_create(&thread_id, NULL, motor_thread, NULL);
-    if (ret != 0) {
-        perror("Failed to create thread");
+    if (ret != 0)
+    {
+        fprintf(stderr, "Failed to create thread");
         return -1;
     }
-	printf("stepper_motor pid=%d\n", ret);
+    fprintf(stdout, "stepper_motor pid=%d\n", ret);
     return 0;
 }

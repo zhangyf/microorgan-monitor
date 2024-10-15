@@ -5,15 +5,15 @@ int dhtxxInitialize(DHT11 *self, int pin)
     self->pinNum = pin;
     self->databuf = 0;
 
-    printf("PIN:\t%d\n", self->pinNum);
+    fprintf(stdout, "PIN:\t%d\n", self->pinNum);
     if (-1 == wiringPiSetup())
     {
-        printf("DHTXX Setup wiringPi failed!");
+        fprintf(stdout, "DHTXX Setup wiringPi failed!");
         return 1;
     }
     else
     {
-        printf("DHTXX Successfully setup wiringPi!\n");
+        fprintf(stdout, "DHTXX Successfully setup wiringPi!\n");
     }
 
     time_t currentTime = time(NULL);

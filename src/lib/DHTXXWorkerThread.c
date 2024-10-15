@@ -17,7 +17,7 @@ void *start(void *arg)
 
     pinMode(mDHT.pinNum, OUTPUT);    // set mode to output
     digitalWrite(mDHT.pinNum, HIGH); // output a high level
-    printf("DHTXX worker thread starting to read....\n");
+    fprintf(stdout, "DHTXX worker thread starting to read....\n");
 
     while (!exit_condition)
     {
@@ -27,7 +27,7 @@ void *start(void *arg)
         if (dhtxxRead(&mDHT))
         {
 
-            printf("DHT11 Sensor data read ok!\t{\"timestamp\":\t%ld\t\"humidity\":\t%.1f%(%d)\t\"temperature\":\t%.1f C(%d)\t exist_condition: %d} %d %d %d\n",
+            fprintf(stdout, "DHT11 Sensor data read ok!\t{\"timestamp\":\t%ld\t\"humidity\":\t%.1f%(%d)\t\"temperature\":\t%.1f C(%d)\t exist_condition: %d} %d %d %d\n",
                    dhtxxGetTimestamp(&mDHT),
                    dhtxxGetHumidity(&mDHT), HIGH_HUMIDITY,
                    dhtxxGetTemperature(&mDHT), HIGH_TEMPERATURE,
@@ -36,11 +36,15 @@ void *start(void *arg)
                    (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY),
                    DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time));
 			char msg[17];
-			snprintf(msg, 17, "H:%.1f% T:%.1f C", dhtxxGetHumidity(&mDHT), dhtxxGetTemperature(&mDHT));
-			printf("%s\n", msg);
-			update_message(msg);
+			
+            snprintf(msg, 17, "H:%.1f% T:%.1f C", dhtxxGetHumidity(&mDHT), dhtxxGetTemperature(&mDHT));
+			fprintf(stdout, "%s\n", msg);
+			update_message(msg, LINE1);
 			memset(msg, '\0', sizeof(msg));
 
+            snprintf(msg, 17, "F:%d W:%d M:%d\n", get_fan_state(), get_water_pump_state(), get_motor_state());
+            update_message(msg, LINE2);
+            memset(msg, '\0', sizeof(msg));
 
 			int relay_state = get_relay_state();
             // 高温（温度不低于50°）高湿（湿度不低于50%）环境，且距离上次翻堆超过3天，则需要翻堆
@@ -54,7 +58,7 @@ void *start(void *arg)
                     start_motor(); // 翻堆
                     fan_on(); //打开风扇
                     last_fandui_time = time(NULL);
-                    printf("start_motor and fan_on and %d\n", last_fandui_time);
+                    fprintf(stdout, "start_motor and fan_on and %d\n", last_fandui_time);
                     start_motor_cnt = 0;
                 }
             }
@@ -64,7 +68,7 @@ void *start(void *arg)
                 {
                     stop_motor(); // 停止翻堆
                     fan_off(); // 关闭风扇
-                    printf("stop_motor and fan_off\n");
+                    fprintf(stdout, "stop_motor and fan_off\n");
                     stop_motor_cnt = 0;
                 }
             }
@@ -82,7 +86,7 @@ void *start(void *arg)
                     start_motor(); // 翻堆
                     water_pump_on(); // 加湿
                     last_fandui_time = time(NULL);
-                    printf("start_motor and water_pump_on and %d\n", last_fandui_time);
+                    fprintf(stdout, "start_motor and water_pump_on and %d\n", last_fandui_time);
                     start_watering_cnt = 0;
                 }
             }
@@ -92,7 +96,7 @@ void *start(void *arg)
                 {
                     stop_motor(); //停止翻堆
                     water_pump_off(); // 停止加湿
-                    printf("stop_motor and water_pump_off\n");
+                    fprintf(stdout, "stop_motor and water_pump_off\n");
                     stop_watering_cnt = 0;
                 }
             }
@@ -104,7 +108,7 @@ void *start(void *arg)
         }
         else
         {
-            printf("Sensor dosen't ans!\n");
+            fprintf(stderr, "Sensor dosen't ans!\n");
         }
         dhtxxReset(&mDHT);
     }
