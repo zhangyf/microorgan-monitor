@@ -2,8 +2,18 @@
 #include "StepperMotor.h"
 #include "ButtonState.h"
 
+void signal_handler(int signum) {
+    printf("Interrupt signal (%d) received.\n", signum);
+	fan_off();
+	stop_motor();
+	water_pump_off();
+    exit(signum);
+}
+
 int main()
 {
+	signal(SIGINT, signal_handler); // 捕获 Ctrl+C (SIGINT)
+    signal(SIGTERM, signal_handler); // 捕获 SIGTERM
     pthread_t dhtxx_tid, motor_tid, relay_tid, marqueue_tid;
     int dhtxx_result, motor_result, relay_result, marqueue_result;
 

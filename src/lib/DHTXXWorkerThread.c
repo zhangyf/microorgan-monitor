@@ -47,12 +47,13 @@ void *start(void *arg)
 			//fprintf(stdout, "%s\n", msg);
             memset(msg, '\0', sizeof(msg));
 
-			int relay_state = get_relay_state();
+			int fan_state = get_fan_state();
+			fprintf(stdout, "fan_state=%d\n", fan_state);
             // 高温（温度不低于50°）高湿（湿度不低于50%）环境，且距离上次翻堆超过3天，则需要翻堆
             if (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE 
 						&& dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY 
 						&& DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time)
-						&& relay_state == FAN_OFF)
+						&& fan_state == 0)
             {
                 if (start_motor_cnt++ > START_MOTOR_THRESHOLD)
                 {
@@ -63,7 +64,7 @@ void *start(void *arg)
                     start_motor_cnt = 0;
                 }
             }
-            else if (dhtxxGetTemperature(&mDHT) <= LOW_TEMPERATURE && relay_state == FAN_ON)
+            else if (dhtxxGetTemperature(&mDHT) <= LOW_TEMPERATURE && fan_state == 1)
             {
                 if (stop_motor_cnt++ > STOP_MOTOR_THRESHOLD)
                 {
@@ -79,8 +80,9 @@ void *start(void *arg)
                 stop_motor_cnt = 0;
             }
 
+			int water_pump_state = get_water_pump_state();
             // 湿度低于阈值，开始加湿，并翻堆
-            if (dhtxxGetHumidity(&mDHT) <= LOW_HUMIDITY && relay_state == WATER_PUMP_OFF)
+            if (dhtxxGetHumidity(&mDHT) <= LOW_HUMIDITY && water_pump_state == 0)
             {
                 if (start_watering_cnt++ > START_WATERING_THRESHOLD)
                 {
@@ -91,7 +93,7 @@ void *start(void *arg)
                     start_watering_cnt = 0;
                 }
             }
-            else if (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY && relay_state == WATER_PUMP_ON)
+            else if (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY && water_pump_state == 1)
             {
                 if (stop_watering_cnt++ > STOP_WATERING_THRESHOLD)
                 {

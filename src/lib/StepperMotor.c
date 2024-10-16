@@ -71,7 +71,7 @@ void *motor_thread(void *arg)
         pthread_mutex_lock(&mutex);
         if (running)
         {
-			fprintf(stdout, "motor_thread start to involve step()\n");
+			//fprintf(stdout, "motor_thread start to involve step()\n");
             step();
         }
         pthread_mutex_unlock(&mutex);
@@ -92,6 +92,7 @@ void stop_motor()
 {
     pthread_mutex_lock(&mutex);
     running = 0;
+	fprintf(stdout, "involved stop_motor()\n");
     pthread_mutex_unlock(&mutex);
 }
 
