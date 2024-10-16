@@ -38,12 +38,13 @@ void *start(void *arg)
 			char msg[17];
 			
             snprintf(msg, 17, "H:%.1f% T:%.1f C", dhtxxGetHumidity(&mDHT), dhtxxGetTemperature(&mDHT));
-			fprintf(stdout, "%s\n", msg);
+			//fprintf(stdout, "%s\n", msg);
 			update_message(msg, LINE1);
 			memset(msg, '\0', sizeof(msg));
 
-            snprintf(msg, 17, "F:%d W:%d M:%d\n", get_fan_state(), get_water_pump_state(), get_motor_state());
+            snprintf(msg, 17, "Fa:%d Wa:%d Mo:%d", get_fan_state(), get_water_pump_state(), get_motor_state());
             update_message(msg, LINE2);
+			//fprintf(stdout, "%s\n", msg);
             memset(msg, '\0', sizeof(msg));
 
 			int relay_state = get_relay_state();

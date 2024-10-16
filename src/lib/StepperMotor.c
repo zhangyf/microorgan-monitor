@@ -1,6 +1,6 @@
 #include "StepperMotor.h"
 
-volatile int running = 1;
+volatile int running = 0;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void setPin(int pin, int value)
@@ -60,11 +60,18 @@ void step()
 void *motor_thread(void *arg)
 {
     fprintf(stdout, "start motor thread %d\n", running);
-    while (1)
+	
+	pinMode(MOTOR_PIN_1, OUTPUT);
+    pinMode(MOTOR_PIN_2, OUTPUT);
+    pinMode(MOTOR_PIN_3, OUTPUT);
+    pinMode(MOTOR_PIN_4, OUTPUT);
+    
+	while (1)
     {
         pthread_mutex_lock(&mutex);
         if (running)
         {
+			fprintf(stdout, "motor_thread start to involve step()\n");
             step();
         }
         pthread_mutex_unlock(&mutex);
@@ -77,6 +84,7 @@ void start_motor()
 {
     pthread_mutex_lock(&mutex);
     running = 1;
+	fprintf(stdout, "involved start_motor()\n");
     pthread_mutex_unlock(&mutex);
 }
 

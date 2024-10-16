@@ -1,7 +1,7 @@
 #include "Relay.h"
 
-int fan_pin = 28;
-int water_pump_pin = 29;
+int fan_pin = 0;
+int water_pump_pin = 2;
 int fan_state = 0;
 int water_pump_state = 0;
 

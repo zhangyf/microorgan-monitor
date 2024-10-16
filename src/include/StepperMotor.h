@@ -3,10 +3,10 @@
 
 #include "common.h"
 
-#define MOTOR_PIN_1 22
-#define MOTOR_PIN_2 23
-#define MOTOR_PIN_3 24
-#define MOTOR_PIN_4 25
+#define MOTOR_PIN_1 25
+#define MOTOR_PIN_2 24
+#define MOTOR_PIN_3 23
+#define MOTOR_PIN_4 22
 
 extern volatile int running;
 extern pthread_mutex_t mutex;

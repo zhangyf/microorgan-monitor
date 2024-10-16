@@ -48,7 +48,7 @@ int main()
         return -1;
     }
 
-    initBtns();
+//    initBtns();
 
     // 等待线程结束
     pthread_join(dhtxx_tid, NULL);
