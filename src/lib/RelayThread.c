@@ -2,6 +2,10 @@
 
 int fan_pin = 2;
 int water_pump_pin = 0;
+
+int fan_led_pin = 28;
+int water_pump_led_pin = 27;
+
 int fan_state = 0;
 int water_pump_state = 0;
 
@@ -76,6 +80,11 @@ void *relay_thread(void *arg)
     // 设置GPIO引脚模式为输出
     pinMode(fan_pin, OUTPUT);
     pinMode(water_pump_pin, OUTPUT);
+    pinMode(fan_led_pin, OUTPUT);
+    pinMode(water_pump_led_pin, OUTPUT);
+
+	fan_off();
+	water_pump_off();
 
     while (1)
     {
@@ -89,22 +98,26 @@ void *relay_thread(void *arg)
         {
             // 收到信号A，开启继电器（高电平）
             digitalWrite(fan_pin, LOW);
+			digitalWrite(fan_led_pin, HIGH);
             fprintf(stdout, "Fan Relay ON\n");
         }
         else if (relay_state == FAN_OFF)
         {
             // 收到信号B，关闭继电器（低电平）
             digitalWrite(fan_pin, HIGH);
+			digitalWrite(fan_led_pin, LOW);
             fprintf(stdout, "Fan Relay OFF\n");
         }
         else if (relay_state == WATER_PUMP_ON)
         {
             digitalWrite(water_pump_pin, LOW);
+			digitalWrite(water_pump_led_pin, HIGH);
             fprintf(stdout, "Water Pump Relay ON\n");
         }
         else if (relay_state == WATER_PUMP_OFF)
         {
             digitalWrite(water_pump_pin, HIGH);
+			digitalWrite(water_pump_led_pin, LOW);
             fprintf(stdout, "Water Pump Relay OFF\n");
         }
         else

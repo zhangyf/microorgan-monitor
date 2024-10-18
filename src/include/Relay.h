@@ -6,6 +6,8 @@
 // 定义继电器连接的GPIO引脚
 extern int fan_pin; // 根据实际情况修改
 extern int water_pump_pin;
+extern int fan_led_pin; // 根据实际情况修改
+extern int water_pump_led_pin;
 extern int fan_state;
 extern int water_pump_state;
 

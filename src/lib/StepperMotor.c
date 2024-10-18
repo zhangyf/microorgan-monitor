@@ -65,6 +65,7 @@ void *motor_thread(void *arg)
     pinMode(MOTOR_PIN_2, OUTPUT);
     pinMode(MOTOR_PIN_3, OUTPUT);
     pinMode(MOTOR_PIN_4, OUTPUT);
+    pinMode(MOTOR_LED_PIN, OUTPUT);
     
 	while (1)
     {
@@ -84,6 +85,8 @@ void start_motor()
 {
     pthread_mutex_lock(&mutex);
     running = 1;
+	fprintf(stdout, "light on %d\n", MOTOR_LED_PIN);
+	digitalWrite(MOTOR_LED_PIN, HIGH);
 	fprintf(stdout, "involved start_motor()\n");
     pthread_mutex_unlock(&mutex);
 }
@@ -92,6 +95,8 @@ void stop_motor()
 {
     pthread_mutex_lock(&mutex);
     running = 0;
+	fprintf(stdout, "light off %d\n", MOTOR_LED_PIN);
+	digitalWrite(MOTOR_LED_PIN, LOW);
 	fprintf(stdout, "involved stop_motor()\n");
     pthread_mutex_unlock(&mutex);
 }

@@ -7,6 +7,7 @@
 #define MOTOR_PIN_2 24
 #define MOTOR_PIN_3 23
 #define MOTOR_PIN_4 22
+#define MOTOR_LED_PIN 26
 
 extern volatile int running;
 extern pthread_mutex_t mutex;

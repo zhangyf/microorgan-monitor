@@ -28,6 +28,7 @@ int main()
         return 1;
     }
 
+
     // 创建DHTXX 工作线程，执行start函数
     dhtxx_result = pthread_create(&dhtxx_tid, NULL, start, NULL);
     if (dhtxx_result != 0)
