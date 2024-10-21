@@ -27,14 +27,14 @@ void *start(void *arg)
         if (dhtxxRead(&mDHT))
         {
 
-            fprintf(stdout, "DHT11 Sensor data read ok!\t{\"timestamp\":\t%ld\t\"humidity\":\t%.1f%(%d)\t\"temperature\":\t%.1f C(%d)\t exist_condition: %d} %d %d %d\n",
+            fprintf(stdout, "DHT11 Sensor data read ok!\t{\"timestamp\":\t%ld\t\"humidity\":\t%.1f%(%d/%d)\t\"temperature\":\t%.1f C(%d/%d)\t exist_condition: %d}\n",
                    dhtxxGetTimestamp(&mDHT),
-                   dhtxxGetHumidity(&mDHT), HIGH_HUMIDITY,
-                   dhtxxGetTemperature(&mDHT), HIGH_TEMPERATURE,
-                   exit_condition,
-                   (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE),
-                   (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY),
-                   DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time));
+                   dhtxxGetHumidity(&mDHT), HIGH_HUMIDITY,LOW_HUMIDITY,
+                   dhtxxGetTemperature(&mDHT), HIGH_TEMPERATURE,LOW_TEMPERATURE,
+                   exit_condition);
+                  // (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE),
+                  // (dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY),
+                  // DIFFERENCE_MORE_THAN_3_DAYS((time_t)dhtxxGetTimestamp(&mDHT), last_fandui_time));
 			char msg[17];
 			
             snprintf(msg, 17, "H:%.1f% T:%.1f C", dhtxxGetHumidity(&mDHT), dhtxxGetTemperature(&mDHT));
@@ -48,7 +48,6 @@ void *start(void *arg)
             memset(msg, '\0', sizeof(msg));
 
 			int fan_state = get_fan_state();
-			fprintf(stdout, "fan_state=%d\n", fan_state);
             // 高温（温度不低于50°）高湿（湿度不低于50%）环境，且距离上次翻堆超过3天，则需要翻堆
             if (dhtxxGetTemperature(&mDHT) > HIGH_TEMPERATURE 
 						&& dhtxxGetHumidity(&mDHT) >= HIGH_HUMIDITY 

@@ -6,10 +6,10 @@
 #define HIGH_TIME                   32
 #define DHT11_PIN                   29
 
-#define HIGH_TEMPERATURE            20
-#define LOW_TEMPERATURE             15
+#define HIGH_TEMPERATURE            40
+#define LOW_TEMPERATURE             20
 #define HIGH_HUMIDITY               90
-#define LOW_HUMIDITY                50
+#define LOW_HUMIDITY                40
 #define START_MOTOR_THRESHOLD       3
 #define STOP_MOTOR_THRESHOLD        3
 #define START_WATERING_THRESHOLD    3

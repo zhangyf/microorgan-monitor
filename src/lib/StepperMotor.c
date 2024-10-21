@@ -101,23 +101,23 @@ void stop_motor()
     pthread_mutex_unlock(&mutex);
 }
 
-int stepper_motor_init()
-{
-    if (wiringPiSetup() == -1)
-    {
-        fprintf(stderr, "WiringPi setup failed\n");
-        return 1;
-    }
-
-    pthread_t thread_id;
-    int ret;
-
-    ret = pthread_create(&thread_id, NULL, motor_thread, NULL);
-    if (ret != 0)
-    {
-        fprintf(stderr, "Failed to create thread");
-        return -1;
-    }
-    fprintf(stdout, "stepper_motor pid=%d\n", ret);
-    return 0;
-}
+//int stepper_motor_init()
+//{
+//    if (wiringPiSetup() == -1)
+//    {
+//        fprintf(stderr, "WiringPi setup failed\n");
+//        return 1;
+//    }
+//
+//    pthread_t thread_id;
+//    int ret;
+//
+//    ret = pthread_create(&thread_id, NULL, motor_thread, NULL);
+//    if (ret != 0)
+//    {
+//        fprintf(stderr, "Failed to create thread");
+//        return -1;
+//    }
+//    fprintf(stdout, "stepper_motor pid=%d\n", ret);
+//    return 0;
+//}
